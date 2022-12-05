@@ -1,0 +1,184 @@
+*, *::before, *::after {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+html {
+    background: rgb(9,129,74);
+    background: linear-gradient(54deg, rgba(9,129,74,1) 0%, rgba(50,50,50,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    text-transform: uppercase;
+    font-family: 'christMas';
+    color: white;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+@font-face {
+    font-family: myFirstFont;
+    src: url(fonts/Hi\ Christmas\ -\ Personal\ Use.otf);
+  }
+
+@font-face {
+    font-family: christMas;
+    src: url(/fonts/Playful\ Christmas-Personal\ Use.otf);
+  }
+
+/* Snowfall */
+.winter-is-coming, .snow {
+    z-index: 100;
+    pointer-events: none;
+}
+.winter-is-coming {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    background: transparent
+}
+.snow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    animation: falling linear infinite both;
+    transform: translate3D(0, -100%, 0);
+}
+.snow--near {
+    animation-duration: 10s;
+    background-image: url('https://dl6rt3mwcjzxg.cloudfront.net/assets/snow/snow-large-075d267ecbc42e3564c8ed43516dd557.png');
+    background-size: contain;
+}
+.snow--near + .snow--alt {
+    animation-delay: 5s;
+}
+.snow--mid {
+    animation-duration: 20s;
+    background-image: url('https://dl6rt3mwcjzxg.cloudfront.net/assets/snow/snow-medium-0b8a5e0732315b68e1f54185be7a1ad9.png');
+    background-size: contain;
+}
+.snow--mid + .snow--alt {
+    animation-delay: 10s;
+}
+.snow--far {
+    animation-duration: 30s;
+    background-image: url('https://dl6rt3mwcjzxg.cloudfront.net/assets/snow/snow-small-1ecd03b1fce08c24e064ff8c0a72c519.png');
+    background-size: contain;
+}
+.snow--far + .snow--alt {
+    animation-delay: 15s;
+}
+@keyframes falling {
+    0% {
+        transform: translate3D(-7.5%, -100%, 0);
+   }
+    100% {
+        transform: translate3D(7.5%, 100%, 0);
+   }
+}
+
+/* D3 styling */
+.axis-element, .x-axis-text, .y-axis-text {
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: white;
+}
+
+.x-axis-text {
+    font-size: 15px;
+}
+
+#bar {
+    opacity: 25%;
+}
+
+#bar:hover {
+    fill: rgba(255, 166, 0, 0.761);
+    opacity: 100%;
+}
+
+
+/* General styling */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hero__content {
+    background-color: black;
+    opacity: 30%;
+    height: 100%;
+}
+
+.overskrift {
+    font-size: 30px;
+    letter-spacing: 2px;
+    opacity: 100%;
+    color: white;
+    text-align: center;
+}
+
+.grid-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    height: 100%;
+    margin: 5px;
+}
+
+.grid1-item-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 1000px;
+}
+
+.grid1-item-2 { 
+    border: 2px dotted red;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    height: 100%;
+    margin: 5px
+}
+
+.section-2 {
+    height: 1000px;
+}
+
+.grid2-item-1 {
+    width: 495px;
+    height: 100%;
+    border: 2px dotted red;
+}
+
+.grid2-item-2 {
+    width: 495px;
+    height: 100%
+}
+
+.grid2-item-3 {
+    height: 100%;
+    border: 2px dotted red;
+}

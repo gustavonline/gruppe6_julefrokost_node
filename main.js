@@ -12,10 +12,10 @@ const morgan = require("morgan"); // Some nice logging
  * DB_PORT er porten til databasen. Det plejer at være 5432, så den behøver man nok ikke ændre.
  */
 const PORT = process.env.PORT || 8080;
-const DB_USER = process.env.DB_USER || "hpjbdhyp";
-const DB_HOST = process.env.DB_HOST || "mouse";
-const DB_NAME = process.env.DB_NAME || "#1";
-const DB_PW = process.env.DB_PW || "bC9TIsYVENxRpYXp3DFjFutm00x7K2Es";
+const DB_USER = process.env.DB_USER || "ozmsopos";
+const DB_HOST = process.env.DB_HOST || "mouse.db.elephantsql.com";
+const DB_NAME = process.env.DB_NAME || "ozmsopos";
+const DB_PW = process.env.DB_PW || "GAwddUeFxU1SC4DAeLqE-JD-7A71SpXD";
 const DB_PORT = process.env.DB_PORT || 5432;
 
 /**
