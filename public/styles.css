@@ -1,5 +1,6 @@
 *, *::before, *::after {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -13,7 +14,7 @@ html {
     background-repeat: no-repeat;
     background-attachment: fixed;
     text-transform: uppercase;
-    font-family: 'christMas';
+    font-family: 'poppins';
     color: white;
 }
 
@@ -27,6 +28,8 @@ img, picture, video, canvas, svg {
     max-width: 100%;
   }
 
+@import url('https://fonts.google.com/specimen/Poppins?query=poppins');
+
 @font-face {
     font-family: myFirstFont;
     src: url(fonts/Hi\ Christmas\ -\ Personal\ Use.otf);
@@ -36,6 +39,11 @@ img, picture, video, canvas, svg {
     font-family: christMas;
     src: url(/fonts/Playful\ Christmas-Personal\ Use.otf);
   }
+
+@font-face {
+    font-family: poppins;
+    src: url(/fonts/Poppins/);
+}
 
 /* Snowfall */
 .winter-is-coming, .snow {
@@ -93,6 +101,43 @@ img, picture, video, canvas, svg {
    }
 }
 
+/* presets knapper*/
+.presets{
+    display: flex;
+    justify-content: space-evenly;
+    
+}
+.presets-btn {
+    background-color: transparent;
+    width: 150px;
+    height: 30px;
+    font-size: 10px;
+    font-weight: 600;
+    border: 2px solid white;
+    letter-spacing: 2px;
+    border-radius: 15px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.presets-btn:disabled {
+    pointer-events: none;
+}
+      
+.presets-btn:hover {
+    background-color: #ff0f0f;
+    box-shadow: rgb(235, 33, 33) 0 8px 15px;
+    transform: translateY(-2px);
+}
+
+.presets-btn:active {
+box-shadow: none;
+transform: translateY(0);
+}
+
+
+
 /* D3 styling */
 .axis-element, .x-axis-text, .y-axis-text {
     font-weight: 600;
@@ -144,18 +189,11 @@ img, picture, video, canvas, svg {
 }
 
 .grid1-item-1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
+    height: 100%;
 }
 
 .grid1-item-2 { 
     border: 2px dotted red;
-}
-
-.section-2 {
-    height: 1000px;
 }
 
 .grid-2 {
@@ -164,6 +202,10 @@ img, picture, video, canvas, svg {
     grid-gap: 10px;
     height: 100%;
     margin: 5px
+}
+
+.section-2 {
+    height: 1000px;
 }
 
 .grid2-item-1 {

@@ -1,7 +1,4 @@
-
-
 // Datasæt & sortering
-
 const dataset = [
     {name: "flæskesteg", value: 12, emoji: "🐷"},
     {name: "and", value: 10, emoji: "🦆"},
@@ -15,6 +12,18 @@ function compareFunction (a, b) {
 };
 
 dataset.sort(compareFunction);
+const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
+
+//presets knappppper 
+const presets = d3.selectAll(".presets")
+presets.selectAll("button")
+    .data(presetsKnapper)
+    .enter()
+    .append("button")
+    .classed("presets-btn", true)
+    .text(d => d)
+    .on("click", function(d) {[console.log("hej")]});
+
 
 // width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 90};
@@ -26,8 +35,7 @@ const svg = d3.selectAll(".barchart-container")
     .append("svg")
     .attr("width", w + margin.left + margin.right)
     .attr("height", h + margin.top + margin.bottom)
-
-.append("g")
+    .append("g")
     .classed("axis-element", "true")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
 
@@ -40,9 +48,9 @@ svg.append("g")
     .attr("transform", "translate(0," + h + ")")
     .call(d3.axisBottom(xScale))
     .selectAll("text")
-        .attr("transform", "translate(-10, 0)rotate(-45)")
-        .style("text-anchor", "end")
-        .classed("x-axis-text", "true")
+    .attr("transform", "translate(-10, 0)rotate(-45)")
+    .style("text-anchor", "end")
+    .classed("x-axis-text", "true")
 
 // Y-axis
 const yScale = d3.scaleBand()
