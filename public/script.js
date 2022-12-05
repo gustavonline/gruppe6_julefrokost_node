@@ -1,6 +1,7 @@
 
 
 // Datasæt & sortering
+
 const dataset = [
     {name: "flæskesteg", value: 12, emoji: "🐷"},
     {name: "and", value: 10, emoji: "🦆"},
