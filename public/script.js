@@ -8,8 +8,8 @@ d3.json("/api/presetsKnapper", {
 
 // Datasæt & sortering
 const dataset = [];
-const traditionelData = presetsData
-dataset.push(traditionelData)
+const traditionelData = presetsData;
+dataset.push(traditionelData);
 
 function compareFunction (a, b) {
     return a.value - b.value;
