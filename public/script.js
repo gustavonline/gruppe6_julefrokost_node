@@ -1,3 +1,5 @@
+const dataset = [];
+
 d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
@@ -7,9 +9,7 @@ d3.json("/api/presetsKnapper", {
 });
 
 // Datasæt & sortering
-const dataset = [];
-const obj = {name: 'Tom'};
-dataset.push(obj);
+dataset.push(presetsData);
 
 function compareFunction (a, b) {
     return a.value - b.value;
