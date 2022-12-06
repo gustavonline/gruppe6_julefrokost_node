@@ -74,9 +74,9 @@ const bars = svg.selectAll("rect")
     .enter()
     .append("rect")
     .attr("x", xScale(0))
-    .attr("y", function(d) { return yScale(d.name); })
+    .attr("y", function(d) { return yScale(d.food_name); })
     .attr("width", function(d) {
-        return xScale(d.value)})
+        return xScale(d.co2_aftryk)})
     .attr("height", yScale.bandwidth())
     .attr("rx", 15)
     .attr("id", "bar")
@@ -86,10 +86,10 @@ svg.selectAll("text.label")
     .data(dataset)
     .enter()
     .append("text")
-    .text(function(d) { return d.value; })
+    .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
-        return xScale(d.value - 3)})
-    .attr("y", function(d) { return yScale(d.name) + 35; })
+        return xScale(d.co2_aftryk - 3)})
+    .attr("y", function(d) { return yScale(d.food_name) + 35; })
     .attr("class", "label") // Husk class på nye labels
     .attr("font-size", "20px")
     .attr("fill", "white");
@@ -101,8 +101,8 @@ svg.selectAll("emoji")
     .append("text")
     .text(function(d) { return d.emoji; })
     .attr("x", function(d) {
-        return xScale(d.value - d.value) + 15})
-    .attr("y", function(d) { return yScale(d.name) + 38; })
+        return xScale(d.co2_aftryk - d.co2_aftryk) + 15})
+    .attr("y", function(d) { return yScale(d.food_name) + 38; })
     .attr("class", "emoji") // Husk class på nye labels
     .attr("font-size", "25px")
     .attr("fill", "white");
