@@ -2,14 +2,14 @@ d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
     const presetsData = response.data; // Henter data fra query i main.js
-    console.log("data", presetsData);
+    console.log("presetsData", presetsData);
     // TODO: Brug data til en d3.js visualisering
 });
 
 // Datasæt & sortering
 const dataset = [];
-
-dataset.push(presetsData);
+const obj = {name: 'Tom'};
+dataset.push(obj);
 
 function compareFunction (a, b) {
     return a.value - b.value;
