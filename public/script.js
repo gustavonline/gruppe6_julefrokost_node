@@ -70,7 +70,7 @@ svg.append("g")
 
 // Create Bars
 const bars = svg.selectAll("rect")
-    .data(presetsData)
+    .data(dataset)
     .enter()
     .append("rect")
     .attr("x", xScale(0))
