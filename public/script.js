@@ -11,10 +11,10 @@ d3.json("/api/presetsKnapper", {
 
 
 // Datasæt & sortering
-// function compareFunction (a, b) {
-//     return a.value - b.value;
-// };
-// dataset.sort(compareFunction);
+function compareFunction (a, b) {
+     return a.value - b.value;
+};
+dataset.sort(compareFunction);
 
 
 const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
@@ -100,8 +100,7 @@ svg.selectAll("emoji")
     .enter()
     .append("text")
     .text(function(d) { return d.emoji; })
-    .attr("x", function(d) {
-        return xScale(d.co2_aftryk - d.co2_aftryk) + 15})
+    .attr("x", 15)
     .attr("y", function(d) { return yScale(d.food_name) + 38; })
     .attr("class", "emoji") // Husk class på nye labels
     .attr("font-size", "25px")
