@@ -1,19 +1,13 @@
-d3.json("/api/helloQuery", {
+d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
-    const data = response.data; // Henter data fra query i main.js
+    const presetsKnapperData = response.data; // Henter data fra query i main.js
     console.log("data", data);
     // TODO: Brug data til en d3.js visualisering
 });
 
 // Datasæt & sortering
-const dataset = [
-    {name: "flæskesteg", value: 12, emoji: "🐷"},
-    {name: "and", value: 10, emoji: "🦆"},
-    {name: "kartofler", value: 15, emoji: "🥔"},
-    {name: "snaps", value: 35, emoji: "🥃"},
-    {name: "risengrød", value: 100, emoji: "🍚"},
-];
+const dataset = [];
 
 function compareFunction (a, b) {
     return a.value - b.value;
@@ -30,7 +24,7 @@ presets.selectAll("button")
     .append("button")
     .classed("presets-btn", true)
     .text(d => d)
-    .on("click", function(d) {[console.log("hej")]});
+    .on("click", dataset.push(presetsKnapperData));
 
 
 // width & height & margin

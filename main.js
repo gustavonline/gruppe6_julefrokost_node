@@ -63,7 +63,7 @@ app.use(morgan("combined"));
  * Man laver lige så mange endpoints man har lyst til. Jeg har lavet et enkelt til
  * querien `SELECT 'Hello, World' as message`.
  */
-app.post("/api/helloQuery", async (req, res) => {
+app.post("/api/presetsKnapper", async (req, res) => {
   try {
     // Lav query
     const query = `SELECT food_name, co2_aftryk, emoji
