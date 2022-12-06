@@ -1,5 +1,5 @@
 const dataset = [];
-
+dataset.push(presetsData);
 d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
@@ -9,7 +9,6 @@ d3.json("/api/presetsKnapper", {
 });
 
 // Datasæt & sortering
-dataset.push(presetsData);
 
 function compareFunction (a, b) {
     return a.value - b.value;
@@ -27,7 +26,7 @@ presets.selectAll("button")
     .append("button")
     .classed("presets-btn", true)
     .text(d => d)
-    .on("click", dataset.push(presetsKnapperData));
+    //.on("click", dataset.push(presetsKnapperData));
 
 
 // width & height & margin
