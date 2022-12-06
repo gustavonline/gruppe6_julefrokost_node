@@ -82,30 +82,30 @@ const bars = svg.selectAll("rect")
     .attr("id", "bar")
 
 // create labels på bar ift value
-svg.selectAll("text.label")
-    .data(dataset)
-    .enter()
-    .append("text")
-    .text(function(d) { return d.co2_aftryk; })
-    .attr("x", function(d) {
-        return xScale(d.co2_aftryk - 3)})
-    .attr("y", function(d) { return yScale(d.food_name) + 35; })
-    .attr("class", "label") // Husk class på nye labels
-    .attr("font-size", "20px")
-    .attr("fill", "white");
-
-// create emoji labels
-// svg.selectAll("emoji")
+// svg.selectAll("text.label")
 //     .data(dataset)
 //     .enter()
 //     .append("text")
-//     .text(function(d) { return d.emoji; })
+//     .text(function(d) { return d.co2_aftryk; })
 //     .attr("x", function(d) {
-//         return xScale(d.co2_aftryk - d.co2_aftryk) + 15})
-//     .attr("y", function(d) { return yScale(d.food_name) + 38; })
-//     .attr("class", "emoji") // Husk class på nye labels
-//     .attr("font-size", "25px")
+//         return xScale(d.co2_aftryk - 3)})
+//     .attr("y", function(d) { return yScale(d.food_name) + 35; })
+//     .attr("class", "label") // Husk class på nye labels
+//     .attr("font-size", "20px")
 //     .attr("fill", "white");
+
+// create emoji labels
+svg.selectAll("emoji")
+    .data(dataset)
+    .enter()
+    .append("text")
+    .text(function(d) { return d.emoji; })
+    .attr("x", function(d) {
+        return xScale(d.co2_aftryk - d.co2_aftryk) + 15})
+    .attr("y", function(d) { return yScale(d.food_name) + 38; })
+    .attr("class", "emoji") // Husk class på nye labels
+    .attr("font-size", "25px")
+    .attr("fill", "white");
 
 // Const for at definere y-akse elementer
 const yaxistext = d3.selectAll(".y-axis-text")
