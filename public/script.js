@@ -47,7 +47,7 @@ const svg = d3.selectAll(".barchart-container")
 // X-axis    
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
-    .domain([0, 100]);
+    .domain([0, 155]);
 
 svg.append("g")
     .attr("transform", "translate(0," + h + ")")
@@ -82,17 +82,17 @@ const bars = svg.selectAll("rect")
     .attr("id", "bar")
 
 // create labels på bar ift value
-// svg.selectAll("text.label")
-//     .data(dataset)
-//     .enter()
-//     .append("text")
-//     .text(function(d) { return d.co2_aftryk; })
-//     .attr("x", function(d) {
-//         return xScale(d.co2_aftryk - 3)})
-//     .attr("y", function(d) { return yScale(d.food_name) + 35; })
-//     .attr("class", "label") // Husk class på nye labels
-//     .attr("font-size", "20px")
-//     .attr("fill", "white");
+svg.selectAll("text.label")
+    .data(dataset)
+    .enter()
+    .append("text")
+    .text(function(d) { return d.co2_aftryk; })
+    .attr("x", function(d) {
+        return xScale(d.co2_aftryk - 3)})
+    .attr("y", function(d) { return yScale(d.food_name) + 35; })
+    .attr("class", "label") // Husk class på nye labels
+    .attr("font-size", "20px")
+    .attr("fill", "white");
 
 // create emoji labels
 svg.selectAll("emoji")
