@@ -1,14 +1,14 @@
 const dataset = [{}];
+const traditionelData = [{}];
 
 d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
-    const presetsData = response.data; // Henter data fra query i main.js
-    console.log("presetsData", presetsData);
+    traditionelData = response.data; // Henter data fra query i main.js
     // TODO: Brug data til en d3.js visualisering
 });
 
-dataset.push(presetsData);
+dataset.push(traditionelData);
 
 // Datasæt & sortering
 function compareFunction (a, b) {
