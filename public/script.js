@@ -61,7 +61,7 @@ svg.append("g")
 const yScale = d3.scaleBand()
     .range([0, h])
     .domain(dataset.map(function(dataset) {
-        return dataset.name;}))
+        return dataset.food_name;}))
     .padding(0.4)
 
 svg.append("g")
