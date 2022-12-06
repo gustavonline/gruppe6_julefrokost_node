@@ -1,26 +1,23 @@
 d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
-    const presetsKnapperData = response.data; // Henter data fra query i main.js
-    console.log("data", presetsKnapperData);
+    const presetsData = response.data; // Henter data fra query i main.js
+    console.log("data", presetsData);
     // TODO: Brug data til en d3.js visualisering
 });
 
 // Datasæt & sortering
 const dataset = [];
 
-dataset.push(presetsKnapperData);
+dataset.push(presetsData);
 
 function compareFunction (a, b) {
     return a.value - b.value;
 };
-
 dataset.sort(compareFunction);
 
 
 const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
-
-console.log(presetsKnapper,dataset)
 
 //presets knappppper 
 const presets = d3.selectAll(".presets")
