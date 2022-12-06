@@ -1,5 +1,5 @@
 const dataset = [{}];
-const traditionelData = [{}];
+const traditionelData = [];
 
 d3.json("/api/presetsKnapper", {
     method: "POST", 
