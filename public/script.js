@@ -1,3 +1,5 @@
+const dataset = [{}];
+
 d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
@@ -6,11 +8,9 @@ d3.json("/api/presetsKnapper", {
     // TODO: Brug data til en d3.js visualisering
 });
 
-// Datasæt & sortering
-const dataset = [];
-const traditionelData = presetsData;
-dataset.push(traditionelData);
+dataset.push(presetsData);
 
+// Datasæt & sortering
 function compareFunction (a, b) {
     return a.value - b.value;
 };
