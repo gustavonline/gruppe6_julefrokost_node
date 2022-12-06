@@ -66,7 +66,16 @@ app.use(morgan("combined"));
 app.post("/api/helloQuery", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT 'Hello, World' as message`;
+    const query = `SELECT food_name, co2_aftryk, emoji
+    FROM food
+    WHERE food_name ILIKE 'flæskesteg%' 
+    OR food_name ILIKE 'Kartoffel. uspec.. rå' 
+    OR food_name ILIKE 'snaps%'
+    OR food_name ILIKE 'Øl, hvidtøl, letøl'
+    OR food_name ILIKE 'risen%'
+    OR food_name ILIKE 'and%'
+    OR food_name ILIKE 'Oksekød. mørbrad. afpudset. rå'
+    OR food_name ILIKE 'Rødkål. konserves. uden tilsat sukker';`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
