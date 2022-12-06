@@ -1,10 +1,9 @@
 const dataset = [{}];
-const traditionelData = [];
 
 d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
-    traditionelData = response.data; // Henter data fra query i main.js
+    const traditionelData = response.data; // Henter data fra query i main.js
     // TODO: Brug data til en d3.js visualisering
 });
 
