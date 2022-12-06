@@ -1,10 +1,10 @@
 d3.json("/api/helloQuery", {
     method: "POST", 
-  }).then(function(response)); {
+  }).then(function(response) {
     const data = response.data; // Henter data fra query i main.js
     console.log("data", data);
     // TODO: Brug data til en d3.js visualisering
-
+});
 
 // Datasæt & sortering
 const dataset = [
