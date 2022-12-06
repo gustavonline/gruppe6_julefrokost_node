@@ -95,17 +95,17 @@ svg.selectAll("text.label")
     .attr("fill", "white");
 
 // create emoji labels
-svg.selectAll("emoji")
-    .data(dataset)
-    .enter()
-    .append("text")
-    .text(function(d) { return d.emoji; })
-    .attr("x", function(d) {
-        return xScale(d.co2_aftryk - d.co2_aftryk) + 15})
-    .attr("y", function(d) { return yScale(d.food_name) + 38; })
-    .attr("class", "emoji") // Husk class på nye labels
-    .attr("font-size", "25px")
-    .attr("fill", "white");
+// svg.selectAll("emoji")
+//     .data(dataset)
+//     .enter()
+//     .append("text")
+//     .text(function(d) { return d.emoji; })
+//     .attr("x", function(d) {
+//         return xScale(d.co2_aftryk - d.co2_aftryk) + 15})
+//     .attr("y", function(d) { return yScale(d.food_name) + 38; })
+//     .attr("class", "emoji") // Husk class på nye labels
+//     .attr("font-size", "25px")
+//     .attr("fill", "white");
 
 // Const for at definere y-akse elementer
 const yaxistext = d3.selectAll(".y-axis-text")
