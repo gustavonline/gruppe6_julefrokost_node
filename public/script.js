@@ -1,5 +1,3 @@
-const dataset = [];
-dataset.push(presetsData);
 d3.json("/api/presetsKnapper", {
     method: "POST", 
   }).then(function(response) {
@@ -69,7 +67,7 @@ svg.append("g")
 
 // Create Bars
 const bars = svg.selectAll("rect")
-    .data(dataset)
+    .data(presetData)
     .enter()
     .append("rect")
     .attr("x", xScale(0))
