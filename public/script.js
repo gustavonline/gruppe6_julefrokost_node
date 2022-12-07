@@ -5,7 +5,7 @@ d3.json("/api/presetsKnapper", {
   }).then(function(response) {
     const data = response.data // Henter data fra query i main.js
     // TODO: Brug data til en d3.js visualisering
-    dataset = data;
+    dataset = data
 });
 
 // Datasæt & sortering
