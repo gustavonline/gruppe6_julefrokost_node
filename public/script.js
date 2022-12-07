@@ -6,13 +6,12 @@ d3.json("/api/presetsKnapper", {
     const data = response.data // Henter data fra query i main.js
     // TODO: Brug data til en d3.js visualisering
     dataset = data
-});
 
 // Datasæt & sortering
 function compareFunction (a, b) {
      return a.value - b.value;
 };
-dataset.sort(compareFunction);
+data.sort(compareFunction);
 
 
 const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
@@ -131,3 +130,5 @@ const domain = g.selectAll(".domain")
 //fjerner x-aksen-tal
 const xaxistick = g.selectAll(".x-axis-text")
     .remove();
+
+});
