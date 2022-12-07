@@ -86,8 +86,8 @@ svg.selectAll("text.label")
     .append("text")
     .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
-        return xScale(d.co2_aftryk)})
-    .attr("y", function(d) { return yScale(d.food_name) + 35; })
+        return xScale(d.co2_aftryk) + 0.5})
+    .attr("y", function(d) { return yScale(d.food_name) + 33; })
     .attr("class", "label") // Husk class på nye labels
     .attr("font-size", "20px")
     .attr("fill", "white");
@@ -99,7 +99,7 @@ svg.selectAll("emoji")
     .append("text")
     .text(function(d) { return d.emoji; })
     .attr("x", 15)
-    .attr("y", function(d) { return yScale(d.food_name) + 30; })
+    .attr("y", function(d) { return yScale(d.food_name) + 31; })
     .attr("class", "emoji") // Husk class på nye labels
     .attr("font-size", "25px")
     .attr("fill", "white");
