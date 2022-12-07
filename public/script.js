@@ -3,26 +3,19 @@ let dataset = [{}];
 d3.json("/api/allfood", {
     method: "GET", 
   }).then(function(response) {
-    const data = response.data // Henter data fra query i main.js
-    dataset = data;
+    const allFoodData = response.data; // Henter data fra query i main.js
 
 // Datasæt & sortering
 
-// const food_name = data.food_name
-
-// function shortenFoodname(food_name) {
-//     if (food_name.length > 5) {
-//         return food_name.substring(0, 5) + "...";
-//     } else {
-//         return food_name;
-//     }
-// };
-// shortenFoodname();
+// function shortenString(d) {
+//     return (d.charAt(0));
+// }
+// shortenString(allFoodData.food_name);
 
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
 };
-data.sort(compareFunction);
+allFoodData.sort(compareFunction);
 
 
 
@@ -56,7 +49,7 @@ const svg = d3.selectAll(".barchart-container")
 // X-axis
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
-    .domain([0, d3.max(data, function(data) {
+    .domain([0, d3.max(allFoodData, function(data) {
         return data.co2_aftryk; })]);
 
 svg.append("g")
@@ -70,9 +63,9 @@ svg.append("g")
 // Y-axis
 const yScale = d3.scaleBand()
     .range([0, h])
-    .domain(data.map(function(data) {
-        return data.food_name;}))
-    .padding(0.4)
+    .domain(allFoodData.map(function(d) {
+        return d.food_name;}))
+    .padding(0.4);
 
 svg.append("g")
     .classed("y-axis-text", "true")
@@ -80,7 +73,7 @@ svg.append("g")
 
 // Create Bars
 const bars = svg.selectAll("rect")
-    .data(data)
+    .data(allFoodData)
     .enter()
     .append("rect")
     .attr("x", xScale(0))
@@ -93,7 +86,7 @@ const bars = svg.selectAll("rect")
 
 // create labels på bar ift value
 svg.selectAll("text.label")
-    .data(data)
+    .data(allFoodData)
     .enter()
     .append("text")
     .text(function(d) { return d.co2_aftryk; })
@@ -106,7 +99,7 @@ svg.selectAll("text.label")
 
 // create emoji labels
 svg.selectAll("emoji")
-    .data(data)
+    .data(allFoodData)
     .enter()
     .append("text")
     .text(function(d) { return d.emoji; })
