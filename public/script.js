@@ -8,8 +8,6 @@ d3.json("/api/presetsKnapper", {
     dataset = data;
 });
 
-
-
 // Datasæt & sortering
 function compareFunction (a, b) {
      return a.value - b.value;
@@ -73,7 +71,7 @@ const bars = svg.selectAll("rect")
     .data(dataset)
     .enter()
     .append("rect")
-    .attr("x", xScale(0))
+    .attr("x", xScale(155))
     .attr("y", function(d) { return yScale(d.food_name); })
     .attr("width", function(d) {
         return xScale(d.co2_aftryk)})
