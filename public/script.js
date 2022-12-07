@@ -44,7 +44,8 @@ const svg = d3.selectAll(".barchart-container")
 // X-axis    
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
-    .domain([0, 155]);
+    .domain([0, d3.max(data, function(data) {
+        return data.co2_aftryk;}) + 5]);
 
 svg.append("g")
     .attr("transform", "translate(0," + h + ")")
