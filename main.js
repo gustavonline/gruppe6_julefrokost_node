@@ -63,10 +63,10 @@ app.use(morgan("combined"));
  * Man laver lige så mange endpoints man har lyst til. Jeg har lavet et enkelt til
  * querien `SELECT 'Hello, World' as message`.
  */
-app.get("/api/presetsKnapper", async (req, res) => {
+app.get("/api/allfood", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT food_name, co2_aftryk, emoji
+    const query1 = `SELECT food_name, co2_aftryk, emoji
     FROM food
     WHERE food_name ILIKE 'flæskesteg%' 
     OR food_name ILIKE 'Kartoffel. uspec.. rå' 
@@ -74,13 +74,14 @@ app.get("/api/presetsKnapper", async (req, res) => {
     OR food_name ILIKE 'Øl, hvidtøl, letøl'
     OR food_name ILIKE 'risen%'
     OR food_name ILIKE 'and%'
-    OR food_name ILIKE 'Oksekød. mørbrad. afpudset. rå'
     OR food_name ILIKE 'Rødkål. konserves. uden tilsat sukker';`;
-    queryData = await client.query(query);
+    queryData1 = await client.query(query1)
+    queryData2 = await client.query(query2);
     // Giv svar tilbage til JavaScript
     res.json({
       "ok": true,
-      "data": queryData.rows,
+      "data1": queryData1.rows,
+      "data2": queryData2.rows,
     })
   } catch (error) {
     // Hvis query fejler, fanges det her.

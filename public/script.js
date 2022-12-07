@@ -3,7 +3,7 @@ let dataset = [{}];
 d3.json("/api/presetsKnapper", {
     method: "GET", 
   }).then(function(response) {
-    const data = response.data // Henter data fra query i main.js
+    const data = response.data1 // Henter data fra query i main.js
     // TODO: Brug data til en d3.js visualisering
     dataset = data
 
