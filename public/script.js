@@ -58,8 +58,8 @@ svg.append("g")
 // Y-axis
 const yScale = d3.scaleBand()
     .range([0, h])
-    .domain(dataset.map(function(dataset) {
-        return dataset.food_name;}))
+    .domain(data.map(function(data) {
+        return data.food_name;}))
     .padding(0.4)
 
 svg.append("g")
@@ -68,10 +68,10 @@ svg.append("g")
 
 // Create Bars
 const bars = svg.selectAll("rect")
-    .data(dataset)
+    .data(data)
     .enter()
     .append("rect")
-    .attr("x", xScale(155))
+    .attr("x", xScale(0))
     .attr("y", function(d) { return yScale(d.food_name); })
     .attr("width", function(d) {
         return xScale(d.co2_aftryk)})
@@ -81,7 +81,7 @@ const bars = svg.selectAll("rect")
 
 // create labels på bar ift value
 svg.selectAll("text.label")
-    .data(dataset)
+    .data(data)
     .enter()
     .append("text")
     .text(function(d) { return d.co2_aftryk; })
@@ -94,7 +94,7 @@ svg.selectAll("text.label")
 
 // create emoji labels
 svg.selectAll("emoji")
-    .data(dataset)
+    .data(data)
     .enter()
     .append("text")
     .text(function(d) { return d.emoji; })
