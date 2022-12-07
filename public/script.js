@@ -4,19 +4,29 @@ d3.json("/api/allfood", {
     method: "GET", 
   }).then(function(response) {
     const data = response.data // Henter data fra query i main.js
-    // TODO: Brug data til en d3.js visualisering
-    dataset = data
+    dataset = data;
 
 // Datasæt & sortering
+
+function shortenString(data) {
+    if (data.food_name.length > 5) {
+        return data.food_name.substring(0, 5) + "...";
+    } else {
+        return data.food_name;
+    }
+};
+shortenString();
 
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
 };
 data.sort(compareFunction);
 
-const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
+
 
 //presets knappppper 
+const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
+
 const presets = d3.selectAll(".presets")
 presets.selectAll("button")
     .data(presetsKnapper)
