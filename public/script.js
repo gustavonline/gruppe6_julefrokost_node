@@ -1,6 +1,6 @@
 let dataset = [{}];
 
-d3.json("/api/presetsKnapper", {
+d3.json("/api/allfood", {
     method: "GET", 
   }).then(function(response) {
     const data = response.data // Henter data fra query i main.js
