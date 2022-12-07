@@ -8,16 +8,16 @@ d3.json("/api/allfood", {
 
 // Datasæt & sortering
 
-const food_name = data.food_name
+// const food_name = data.food_name
 
-function shortenFoodname(food_name) {
-    if (food_name.length > 5) {
-        return food_name.substring(0, 5) + "...";
-    } else {
-        return food_name;
-    }
-};
-shortenFoodname();
+// function shortenFoodname(food_name) {
+//     if (food_name.length > 5) {
+//         return food_name.substring(0, 5) + "...";
+//     } else {
+//         return food_name;
+//     }
+// };
+// shortenFoodname();
 
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
