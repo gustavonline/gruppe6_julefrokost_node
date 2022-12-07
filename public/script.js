@@ -30,7 +30,7 @@ presets.selectAll("button")
 // width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 90};
 const w = 1000 - margin.left - margin.right;
-const h = 600 - margin.top - margin.bottom;
+const h = 1000 - margin.top - margin.bottom;
 
 // Create SVG element
 const svg = d3.selectAll(".barchart-container")
@@ -45,7 +45,7 @@ const svg = d3.selectAll(".barchart-container")
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
     .domain([0, d3.max(data, function(data) {
-        return data.co2_aftryk;}) + 10]);
+        return data.co2_aftryk;}) + 5]);
 
 svg.append("g")
     .attr("transform", "translate(0," + h + ")")
@@ -86,8 +86,8 @@ svg.selectAll("text.label")
     .append("text")
     .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
-        return xScale(d.co2_aftryk) + 0.5})
-    .attr("y", function(d) { return yScale(d.food_name) + 33; })
+        return xScale(d.co2_aftryk) + 10})
+    .attr("y", function(d) { return yScale(d.food_name) + 40; })
     .attr("class", "label") // Husk class på nye labels
     .attr("font-size", "20px")
     .attr("fill", "white");
