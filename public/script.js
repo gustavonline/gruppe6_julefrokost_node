@@ -8,6 +8,8 @@ d3.json("/api/allfood", {
 
 // Datasæt & sortering
 
+const food_name = data.food_name
+
 function shortenFoodname(data) {
     if (food_name.length > 5) {
         return food_name.substring(0, 5) + "...";
