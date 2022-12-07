@@ -8,11 +8,11 @@ d3.json("/api/allfood", {
     dataset = data
 
 // Datasæt & sortering
+
 function compareFunction (a, b) {
-     return a.value - b.value;
+     return a.co2_aftryk - b.co2_aftryk;
 };
 data.sort(compareFunction);
-
 
 const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
 
@@ -30,22 +30,22 @@ presets.selectAll("button")
 // width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 90};
 const w = 1000 - margin.left - margin.right;
-const h = 1000 - margin.top - margin.bottom;
+const h = 600 - margin.top - margin.bottom;
 
 // Create SVG element
 const svg = d3.selectAll(".barchart-container")
     .append("svg")
-    .attr("width", w + margin.left + margin.right)
+    .attr("width", 1150 + margin.left + margin.right)
     .attr("height", h + margin.top + margin.bottom)
     .append("g")
     .classed("axis-element", "true")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
 
-// X-axis    
+// X-axis
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
     .domain([0, d3.max(data, function(data) {
-        return data.co2_aftryk;}) + 5]);
+        return data.co2_aftryk; })]);
 
 svg.append("g")
     .attr("transform", "translate(0," + h + ")")
@@ -87,7 +87,7 @@ svg.selectAll("text.label")
     .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
         return xScale(d.co2_aftryk) + 10})
-    .attr("y", function(d) { return yScale(d.food_name) + 40; })
+    .attr("y", function(d) { return yScale(d.food_name) + 30; })
     .attr("class", "label") // Husk class på nye labels
     .attr("font-size", "20px")
     .attr("fill", "white");
@@ -112,9 +112,6 @@ const tick = yaxistext.selectAll(".tick")
 tick.selectAll("line")
     .remove()
 
-/* const path = yaxistext.selectAll("path")
-    path.remove()*/ // vi ved ikke hvad det gør 
-
 // const for at definere x-akse elementer
 const axiselement = d3.selectAll(".axis-element")
 const g = axiselement.selectAll("g")
@@ -122,7 +119,7 @@ const tickaxiselement = g.selectAll(".tick")
 
 // fjerner små lillediller på x-aksen
 tickaxiselement.selectAll("line")
-        .remove()
+    .remove()
     
 //fjerner x-aksen-linje
 const domain = g.selectAll(".domain")
