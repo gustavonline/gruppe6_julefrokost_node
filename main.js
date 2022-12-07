@@ -66,7 +66,7 @@ app.use(morgan("combined"));
 app.get("/api/allfood", async (req, res) => {
   try {
     // Lav query
-    const query1 = `SELECT food_name, co2_aftryk, emoji
+    const query = `SELECT food_name, co2_aftryk, emoji
     FROM food
     WHERE food_name ILIKE 'flæskesteg%' 
     OR food_name ILIKE 'Kartoffel. uspec.. rå' 
@@ -75,13 +75,11 @@ app.get("/api/allfood", async (req, res) => {
     OR food_name ILIKE 'risen%'
     OR food_name ILIKE 'and%'
     OR food_name ILIKE 'Rødkål. konserves. uden tilsat sukker';`;
-    queryData1 = await client.query(query1)
-    queryData2 = await client.query(query2);
+    queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
       "ok": true,
-      "data1": queryData1.rows,
-      "data2": queryData2.rows,
+      "data": queryData.rows,
     })
   } catch (error) {
     // Hvis query fejler, fanges det her.
