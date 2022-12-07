@@ -10,7 +10,7 @@ d3.json("/api/allfood", {
 
 const food_name = data.food_name
 
-function shortenFoodname(data) {
+function shortenFoodname(food_name) {
     if (food_name.length > 5) {
         return food_name.substring(0, 5) + "...";
     } else {
