@@ -1,29 +1,24 @@
-var dataset = [];
 
+
+
+// datasæt og api-kald fra main.js    
 d3.json("/api/allfood", {
     method: "GET", 
   }).then(function(response) {
     const allFoodData = response.data; // Henter data fra query i main.js
-// Datasæt & sortering
 
-function update(data) {
+    const dummy_data = [
+        {food_name: "Kalkun", co2_aftryk: 1.5, emoji: "🦃"},
+        {food_name: "Rødkål", co2_aftryk: 0.5, emoji: "🥬"},
+        {food_name: "Risengrød", co2_aftryk: 0.3, emoji: "🍚"},
+    ]
+
+// Datasortering i rækkefølge
 
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
 };
 allFoodData.sort(compareFunction);
-
-//presets knappppper 
-const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
-
-const presets = d3.selectAll(".presets")
-presets.selectAll("button")
-    .data(presetsKnapper)
-    .enter()
-    .append("button")
-    .classed("presets-btn", true)
-    .text(d => d)
-    // .on("click", dataset.push(allFoodData));
 
 // width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 90};
@@ -38,6 +33,11 @@ const svg = d3.selectAll(".barchart-container")
     .append("g")
     .classed("axis-element", "true")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
+
+// update function
+function update(data) {
+    
+
 
 // X-axis
 const xScale = d3.scaleLinear()
@@ -63,14 +63,14 @@ const yScale = d3.scaleBand()
 svg.append("g")
     .classed("y-axis-text", "true")
     .call(d3.axisLeft(yScale));
+    
 
 // Create Bars
 var bars = svg.selectAll("rect")
     .data(data)
 
 bars
-    .enter()
-    .append("rect")
+    .join("rect")
     .attr("x", xScale(0))
     .attr("y", function(d) { return yScale(d.food_name); })
     .attr("width", function(d) {
@@ -82,8 +82,7 @@ bars
 // create labels på bar ift value
 svg.selectAll("text.label")
     .data(data)
-    .enter()
-    .append("text")
+    .join("text")
     .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
         return xScale(d.co2_aftryk) + 10})
@@ -93,16 +92,14 @@ svg.selectAll("text.label")
     .attr("fill", "white");
 
 // create emoji labels
-svg.selectAll("emoji")
+svg.selectAll("text.emoji")
     .data(data)
-    .enter()
-    .append("text")
+    .join("text")
     .text(function(d) { return d.emoji; })
     .attr("x", 15)
-    .attr("y", function(d) { return yScale(d.food_name) + 31; })
+    .attr("y", function(d) { return yScale(d.food_name) + 30; })
     .attr("class", "emoji") // Husk class på nye labels
-    .attr("font-size", "25px")
-    .attr("fill", "white");
+    .attr("font-size", "25px");
 
 // Const for at definere y-akse elementer
 const yaxistext = d3.selectAll(".y-axis-text")
@@ -130,6 +127,21 @@ const xaxistick = g.selectAll(".x-axis-text")
     .remove();
 
 }
-update(allFoodData);
+update(dummy_data);
+
+//presets knappppper 
+const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
+
+const presets = d3.selectAll(".presets")
+presets.selectAll("button")
+    .data(presetsKnapper)
+    .enter()
+    .append("button")
+    .classed("presets-btn", true)
+    .text(d => d)
+    .attr("id", d => d)
+    .on("click", function() {
+        return update(allFoodData)
+    });
 
 });
