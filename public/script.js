@@ -36,8 +36,10 @@ const svg = d3.selectAll(".barchart-container")
 
 // update function
 function update(data) {
-    
 
+// update selection for at fjerne alt gammel data på y-akse --> men hvorfor skal den så øverst???????
+const updateSelection = d3.selectAll(".y-axis-text")
+updateSelection.remove();
 
 // X-axis
 const xScale = d3.scaleLinear()
