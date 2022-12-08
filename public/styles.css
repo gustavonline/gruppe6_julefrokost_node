@@ -28,8 +28,6 @@ img, picture, video, canvas, svg {
     max-width: 100%;
   }
 
-@import url('https://fonts.google.com/specimen/Poppins?query=poppins');
-
 @font-face {
     font-family: myFirstFont;
     src: url(fonts/Hi\ Christmas\ -\ Personal\ Use.otf);
@@ -39,11 +37,6 @@ img, picture, video, canvas, svg {
     font-family: christMas;
     src: url(/fonts/Playful\ Christmas-Personal\ Use.otf);
   }
-
-@font-face {
-    font-family: poppins;
-    src: url(/fonts/Poppins/);
-}
 
 /* Snowfall */
 .winter-is-coming, .snow {

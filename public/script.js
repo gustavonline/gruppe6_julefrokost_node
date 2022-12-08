@@ -1,23 +1,17 @@
-let dataset = [{}];
+var dataset = [];
 
 d3.json("/api/allfood", {
     method: "GET", 
   }).then(function(response) {
     const allFoodData = response.data; // Henter data fra query i main.js
-
 // Datasæt & sortering
 
-// function shortenString(d) {
-//     return (d.charAt(0));
-// }
-// shortenString(allFoodData.food_name);
+function update(data) {
 
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
 };
 allFoodData.sort(compareFunction);
-
-
 
 //presets knappppper 
 const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
@@ -29,8 +23,7 @@ presets.selectAll("button")
     .append("button")
     .classed("presets-btn", true)
     .text(d => d)
-    //.on("click", dataset.push(presetsKnapperData));
-
+    // .on("click", dataset.push(allFoodData));
 
 // width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 90};
@@ -49,7 +42,7 @@ const svg = d3.selectAll(".barchart-container")
 // X-axis
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
-    .domain([0, d3.max(allFoodData, function(data) {
+    .domain([0, d3.max(data, function(data) {
         return data.co2_aftryk; })]);
 
 svg.append("g")
@@ -63,7 +56,7 @@ svg.append("g")
 // Y-axis
 const yScale = d3.scaleBand()
     .range([0, h])
-    .domain(allFoodData.map(function(d) {
+    .domain(data.map(function(d) {
         return d.food_name;}))
     .padding(0.4);
 
@@ -72,8 +65,10 @@ svg.append("g")
     .call(d3.axisLeft(yScale));
 
 // Create Bars
-const bars = svg.selectAll("rect")
-    .data(allFoodData)
+var bars = svg.selectAll("rect")
+    .data(data)
+
+bars
     .enter()
     .append("rect")
     .attr("x", xScale(0))
@@ -86,7 +81,7 @@ const bars = svg.selectAll("rect")
 
 // create labels på bar ift value
 svg.selectAll("text.label")
-    .data(allFoodData)
+    .data(data)
     .enter()
     .append("text")
     .text(function(d) { return d.co2_aftryk; })
@@ -99,7 +94,7 @@ svg.selectAll("text.label")
 
 // create emoji labels
 svg.selectAll("emoji")
-    .data(allFoodData)
+    .data(data)
     .enter()
     .append("text")
     .text(function(d) { return d.emoji; })
@@ -133,5 +128,8 @@ const domain = g.selectAll(".domain")
 //fjerner x-aksen-tal
 const xaxistick = g.selectAll(".x-axis-text")
     .remove();
+
+}
+update(allFoodData);
 
 });
