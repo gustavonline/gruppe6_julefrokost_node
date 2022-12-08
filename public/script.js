@@ -129,6 +129,7 @@ const xaxistick = g.selectAll(".x-axis-text")
     .remove();
 
 }
+// kører update function med start data
 update(dummy_data);
 
 //presets knappppper 
