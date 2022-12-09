@@ -192,7 +192,7 @@ transform: translateY(0);
 }
 
 .grid1-item-2 { 
-    border: 2px dotted red;
+    border: 2px dotted rgb(0, 21, 255);
 }
 
 .grid-2 {

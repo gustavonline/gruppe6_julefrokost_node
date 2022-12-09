@@ -66,20 +66,39 @@ app.use(morgan("combined"));
 app.get("/api/allfood", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT food_name, co2_aftryk, emoji
+    const query1 = `SELECT SUBSTRING(food_name, 1,12) as shortenfood_name, food_name, co2_aftryk, emoji
     FROM food
     WHERE food_name ILIKE 'flæskesteg%' 
     OR food_name ILIKE 'Kartoffel. uspec.. rå' 
     OR food_name ILIKE 'snaps%'
     OR food_name ILIKE 'Øl, hvidtøl, letøl'
     OR food_name ILIKE 'risen%'
-    OR food_name ILIKE 'and%'
     OR food_name ILIKE 'Rødkål. konserves. uden tilsat sukker';`;
-    queryData = await client.query(query);
+    const query2 = `SELECT SUBSTRING(food_name, 1,12) as shortenfood_name, food_name, co2_aftryk, emoji
+    FROM food
+    WHERE food_name ILIKE 'Hasselback%' 
+    OR food_name ILIKE 'Kartoffel. uspec.. rå' 
+    OR food_name ILIKE 'Risdrik%'
+    OR food_name ILIKE 'Øl, hvidtøl, letøl'
+    OR food_name ILIKE 'Rødkål. konserves. uden tilsat sukker'
+    OR food_name ILIKE 'Vegansk is%';`;
+    const query3 = `SELECT SUBSTRING(food_name, 1,12) as shortenfood_name, food_name, co2_aftryk, emoji
+    FROM food
+    WHERE food_name ILIKE 'grillpølser%' 
+    OR food_name ILIKE 'paksoi%' 
+    OR food_name ILIKE '%postevand%'
+	OR food_name ILIKE 'energidrik'
+    OR food_name ILIKE '%æbleskiver%'
+    OR food_name ILIKE 'grønkål%';`;
+    queryData1 = await client.query(query1);
+    queryData2 = await client.query(query2);
+    queryData3 = await client.query(query3);
     // Giv svar tilbage til JavaScript
     res.json({
       "ok": true,
-      "data": queryData.rows,
+      "julefrokost": queryData1.rows,
+      "veganskjulefrkost": queryData2.rows,
+      "co2neutraljulefrokost": queryData3.rows,
     })
   } catch (error) {
     // Hvis query fejler, fanges det her.

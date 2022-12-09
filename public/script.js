@@ -5,7 +5,9 @@
 d3.json("/api/allfood", {
     method: "GET", 
   }).then(function(response) {
-    const allFoodData = response.data; // Henter data fra query i main.js
+    const traditionelJulefrkost = response.julefrokost;
+    const veganskjulefrkost = response.veganskjulefrkost;
+    const co2neutraljulefrokost = response.co2neutraljulefrokost; // Henter data fra query i main.js
 
     const dummy_data = [
         {food_name: "Kalkun", co2_aftryk: 1.5, emoji: "🦃"},
@@ -18,10 +20,12 @@ d3.json("/api/allfood", {
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
 };
-allFoodData.sort(compareFunction);
+traditionelJulefrkost.sort(compareFunction);
+veganskjulefrkost.sort(compareFunction);
+co2neutraljulefrokost.sort(compareFunction);
 
 // width & height & margin
-const margin = {top: 20, right: 30, bottom: 40, left: 90};
+const margin = {top: 20, right: 30, bottom: 40, left: 110};
 const w = 1000 - margin.left - margin.right;
 const h = 600 - margin.top - margin.bottom;
 
@@ -45,7 +49,13 @@ updateSelection.remove();
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
     .domain([0, d3.max(data, function(data) {
-        return data.co2_aftryk; })]);
+        if (data.co2_aftryk < 5) {
+            return 4;
+        }
+        else if (data.co2_aftryk > 150) {
+            return 200;
+        }
+    })]);
 
 svg.append("g")
     .attr("transform", "translate(0," + h + ")")
@@ -59,7 +69,7 @@ svg.append("g")
 const yScale = d3.scaleBand()
     .range([0, h])
     .domain(data.map(function(d) {
-        return d.food_name;}))
+        return d.shortenfood_name;}))
     .padding(0.4);
 
 svg.append("g")
@@ -74,10 +84,10 @@ var bars = svg.selectAll("rect")
 bars
     .join("rect")
     .attr("x", xScale(0))
-    .attr("y", function(d) { return yScale(d.food_name); })
+    .attr("y", function(d) { return yScale(d.shortenfood_name); })
     .attr("width", function(d) {
         return xScale(d.co2_aftryk)})
-    .attr("height", yScale.bandwidth())
+    .attr("height", 45)
     .attr("rx", 15)
     .attr("id", "bar")
 
@@ -88,7 +98,7 @@ svg.selectAll("text.label")
     .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
         return xScale(d.co2_aftryk) + 10})
-    .attr("y", function(d) { return yScale(d.food_name) + 30; })
+    .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
     .attr("class", "label") // Husk class på nye labels
     .attr("font-size", "20px")
     .attr("fill", "white");
@@ -99,7 +109,7 @@ svg.selectAll("text.emoji")
     .join("text")
     .text(function(d) { return d.emoji; })
     .attr("x", 15)
-    .attr("y", function(d) { return yScale(d.food_name) + 30; })
+    .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
     .attr("class", "emoji") // Husk class på nye labels
     .attr("font-size", "25px");
 
@@ -130,12 +140,14 @@ const xaxistick = g.selectAll(".x-axis-text")
 
 }
 // kører update function med start data
-update(dummy_data);
+update(traditionelJulefrkost);
+
+// update function til at skifte med presets
 
 //presets knappppper 
-const presetsKnapper = ["Traditionel julefrokost","Vegans Julefrokost","co2 Julefrokost"];
+const presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
 
-const presets = d3.selectAll(".presets")
+const presets = d3.selectAll(".grid1-item-2")
 presets.selectAll("button")
     .data(presetsKnapper)
     .enter()
@@ -143,8 +155,15 @@ presets.selectAll("button")
     .classed("presets-btn", true)
     .text(d => d)
     .attr("id", d => d)
-    .on("click", function() {
-        return update(allFoodData)
-    });
-
+    .on("click", function(event, presetData) {
+        console.log(presetData)
+        if (presetData == "Den Traditionel") {
+            update(traditionelJulefrkost);
+        } else if (presetData == "Den Veganske") {
+            update(veganskjulefrkost);
+        }
+        else if (presetData == "Den Co2-venlige") {
+            update(co2neutraljulefrokost);
+        }
+    })
 });
