@@ -9,13 +9,7 @@ d3.json("/api/allfood", {
     const veganskjulefrkost = response.veganskjulefrkost;
     const co2neutraljulefrokost = response.co2neutraljulefrokost; // Henter data fra query i main.js
 
-    const dummy_data = [
-        {food_name: "Kalkun", co2_aftryk: 1.5, emoji: "🦃"},
-        {food_name: "Rødkål", co2_aftryk: 0.5, emoji: "🥬"},
-        {food_name: "Risengrød", co2_aftryk: 0.3, emoji: "🍚"},
-    ]
-
-// Datasortering i rækkefølge
+// Kronologisk datasortering laveste først
 
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
@@ -24,12 +18,12 @@ traditionelJulefrkost.sort(compareFunction);
 veganskjulefrkost.sort(compareFunction);
 co2neutraljulefrokost.sort(compareFunction);
 
-// width & height & margin
+// Definerer width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 110};
 const w = 1000 - margin.left - margin.right;
 const h = 600 - margin.top - margin.bottom;
 
-// Create SVG element
+// laver SVG element i div med class "barchart-container"
 const svg = d3.selectAll(".barchart-container")
     .append("svg")
     .attr("width", 1150 + margin.left + margin.right)
@@ -38,14 +32,14 @@ const svg = d3.selectAll(".barchart-container")
     .classed("axis-element", "true")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
 
-// update function
+// update function til at indsætte data i barchart ved klik på knap
 function update(data) {
 
-// update selection for at fjerne alt gammel data på y-akse --> men hvorfor skal den så øverst???????
+// update selection for at fjerne alt gammel data på y-akse når funktionen ovenover bliver kaldt
 const updateSelection = d3.selectAll(".y-axis-text")
 updateSelection.remove();
 
-// X-axis
+// X-scale & X-axis ved at append g til svg elementet
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
     .domain([0, d3.max(data, function(data) {
@@ -65,7 +59,7 @@ svg.append("g")
     .style("text-anchor", "end")
     .classed("x-axis-text", "true")
 
-// Y-axis
+// y-scale & y-axis ved at append g til svg elementet
 const yScale = d3.scaleBand()
     .range([0, h])
     .domain(data.map(function(d) {
@@ -77,10 +71,11 @@ svg.append("g")
     .call(d3.axisLeft(yScale));
     
 
-// Create Bars
+// konstaterer bars og append rect til svg elementet med data
 var bars = svg.selectAll("rect")
     .data(data)
 
+// definerer attributter til bars og kalder .join i stedet for .enter for at data kan opdateres
 bars
     .join("rect")
     .attr("x", xScale(0))
@@ -91,7 +86,7 @@ bars
     .attr("rx", 15)
     .attr("id", "bar")
 
-// create labels på bar ift value
+// create labels på bar ift value (co2_aftryk)
 svg.selectAll("text.label")
     .data(data)
     .join("text")
@@ -103,7 +98,7 @@ svg.selectAll("text.label")
     .attr("font-size", "20px")
     .attr("fill", "white");
 
-// create emoji labels
+// create emoji
 svg.selectAll("text.emoji")
     .data(data)
     .join("text")
@@ -113,38 +108,36 @@ svg.selectAll("text.emoji")
     .attr("class", "emoji") // Husk class på nye labels
     .attr("font-size", "25px");
 
-// Const for at definere y-akse elementer
+// Const for at "fange" y-akse elementer
 const yaxistext = d3.selectAll(".y-axis-text")
 const tick = yaxistext.selectAll(".tick")
 
-// fjerner små lillediller på y-aksen
+// til slut fjernes små ticks
 tick.selectAll("line")
     .remove()
 
-// const for at definere x-akse elementer
+// const for at "fange" x-akse elementer
 const axiselement = d3.selectAll(".axis-element")
 const g = axiselement.selectAll("g")
 const tickaxiselement = g.selectAll(".tick")
 
-// fjerner små lillediller på x-aksen
+// til slut fjernes line
 tickaxiselement.selectAll("line")
     .remove()
     
-//fjerner x-aksen-linje
+//fjerner x-aksen-linjer/domain
 const domain = g.selectAll(".domain")
     .remove()
 
-//fjerner x-aksen-tal
+//fjerner x-akse-tal
 const xaxistick = g.selectAll(".x-axis-text")
     .remove();
 
 }
-// kører update function med start data
+// kalder update function udenfor tuborg-klammer (VIGTIGT) med start data traditioneljulefrokost
 update(traditionelJulefrkost);
 
-// update function til at skifte med presets
-
-//presets knappppper 
+//presets knapper
 const presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
 
 const presets = d3.selectAll(".grid1-item-2")
@@ -155,6 +148,7 @@ presets.selectAll("button")
     .classed("presets-btn", true)
     .text(d => d)
     .attr("id", d => d)
+    // funtion der afgøre hvilken et datasæt der skal tildeles den korrekte knap - her er det vigtigt at huske at bruge 'event' selvom den ikke bliver brugt i funktionen - derudover kan man debugge med console.log for at se om knappen rent faktisk hænger sammen med datasættet
     .on("click", function(event, presetData) {
         console.log(presetData)
         if (presetData == "Den Traditionel") {

@@ -87,7 +87,7 @@ app.get("/api/allfood", async (req, res) => {
     WHERE food_name ILIKE 'grillpølser%' 
     OR food_name ILIKE 'paksoi%' 
     OR food_name ILIKE '%postevand%'
-	OR food_name ILIKE 'energidrik'
+	  OR food_name ILIKE 'energidrik'
     OR food_name ILIKE '%æbleskiver%'
     OR food_name ILIKE 'grønkål%';`;
     queryData1 = await client.query(query1);
