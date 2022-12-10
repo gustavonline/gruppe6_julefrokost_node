@@ -88,29 +88,39 @@ bars
     .attr("rx", 15)
     .attr("id", "bar")
 
-// create labels på bar ift value (co2_aftryk)
-svg.selectAll("text.label")
+// create labels på bar ift value (co2_aftryk) og .tween for at få animation på labels --> https://educationalresearchtechniques.com/2019/05/29/tweening-with-d3-js/
+const textLabel = svg.selectAll("text.label")
     .data(data)
     .join("text")
     .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
     .transition()
     .duration(2000)
-    .text(function(d) { return d.co2_aftryk; })
+    .tween("text", function(d, i) {
+        var currentValue = d3.select(this).text();
+        return function(t) {
+            this.textContent = d3.interpolateNumber(currentValue,d.co2_aftryk)(t).toFixed(2);}
+        })
+    // .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
         return xScale(d.co2_aftryk) + 10})
     .attr("class", "label") // Husk class på nye labels
     .attr("font-size", "20px")
     .attr("fill", "white");
 
-// create emoji
+// create emoji og .styleTween for at få animation på emojis --> https://educationalresearchtechniques.com/2019/05/29/tweening-with-d3-js/
 svg.selectAll("text.emoji")
     .data(data)
     .join("text")
-    .text(function(d) { return d.emoji; })
     .attr("x", 15)
     .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
     .attr("class", "emoji") // Husk class på nye labels
-    .attr("font-size", "25px");
+    .text(function(d) {return d.emoji;})
+    .transition()
+    .duration(2000)
+    .styleTween("font", function() {
+        return d3.interpolate(0, "25px arial")
+    })
+    
 
 // Const for at "fange" y-akse elementer
 const yaxistext = d3.selectAll(".y-axis-text")
