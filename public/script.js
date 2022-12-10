@@ -80,9 +80,11 @@ bars
     .join("rect")
     .attr("x", xScale(0))
     .attr("y", function(d) { return yScale(d.shortenfood_name); })
+    .attr("height", 45)
+    .transition()
+    .duration(2000)
     .attr("width", function(d) {
         return xScale(d.co2_aftryk)})
-    .attr("height", 45)
     .attr("rx", 15)
     .attr("id", "bar")
 
@@ -90,10 +92,12 @@ bars
 svg.selectAll("text.label")
     .data(data)
     .join("text")
+    .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
+    .transition()
+    .duration(2000)
     .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
         return xScale(d.co2_aftryk) + 10})
-    .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
     .attr("class", "label") // Husk class på nye labels
     .attr("font-size", "20px")
     .attr("fill", "white");
