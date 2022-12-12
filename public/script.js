@@ -25,11 +25,12 @@ const svg = d3.selectAll(".barchart-container")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
 
 // tomt dataset til push funtion
-var dataset = [{}];
+let dataset = [];
 console.log(dataset);
 
+
 //presets knapper
-const presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
+let presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
 
 const presets = d3.selectAll(".presets")
 presets.selectAll("button")
@@ -40,27 +41,48 @@ presets.selectAll("button")
     .text(d => d)
     .attr("id", d => d)
     // funtion der afgøre hvilken et datasæt der skal tildeles den korrekte knap - her er det vigtigt at huske at bruge 'event' selvom den ikke bliver brugt i funktionen - derudover kan man debugge med console.log for at se om knappen rent faktisk hænger sammen med datasættet
-    .on("click", function(event, presetData) {
+    .on("click", function(event, data) {
         dataset.pop();
         console.log(dataset);
-        if (presetData === "Den Traditionel") {
-            dataset.push(traditionelJulefrkost);
+        if (data === "Den Traditionel") {
+            dataset.splice(dataset[0],0,traditionelJulefrkost);
         }
-        else if (presetData === "Den Veganske") {
+        else if (data === "Den Veganske") {
             dataset.push(veganskjulefrkost);
         }
-        else if (presetData === "Den Co2-venlige") {
+        else if (data === "Den Co2-venlige") {
             dataset.push(co2neutraljulefrokost);
         }
         console.log(dataset);
         update(dataset[0]);
     });
 
-
 // update function til at indsætte data i barchart ved klik på knap
 function update(data) {
+    
+//hovedret knapper
+const hovedretContainer = d3.selectAll(".hovedret")
+hovedretContainer.selectAll("button")
+        .data(hovedretPresetData)
+        .enter()
+        .append("button")
+        .classed("hovedretKnapper", true)
+        .text(d => d.shortenfood_name)
+        .attr("id", d => d.shortenfood_name)
+        .on("click", function(event, d) {
+        data.splice(data[0], 0, d);
+        console.log(dataset);
+        update(data);
+    });
 
-// sorterings funtion til at sortere data efter co2_aftryk
+    
+    // hovedretKnapper.selectAll("text")
+    //     .data(hovedretPresetData)
+    //     .enter()
+    //     .append("text")
+    //     .text(function(d) {return d.emoji;})
+
+// // sorterings funtion til at sortere data efter co2_aftryk
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
 };
@@ -103,7 +125,7 @@ svg.append("g")
     
 
 // konstaterer bars og append rect til svg elementet med data
-var bars = svg.selectAll("rect")
+const bars = svg.selectAll("rect")
     .data(data)
 
 // definerer attributter til bars og kalder .join i stedet for .enter for at data kan opdateres
@@ -177,27 +199,6 @@ const domain = g.selectAll(".domain")
 //fjerner x-akse-tal
 const xaxistick = g.selectAll(".x-axis-text")
     .remove();
-
-//hovedret knapper
-    const hovedretContainer = d3.selectAll(".hovedret")
-    hovedretContainer.selectAll("button")
-        .data(hovedretPresetData)
-        .enter()
-        .append("button")
-        .classed("hovedretKnapper", true)
-        .text(d => d.shortenfood_name)
-        .attr("id", d => d.shortenfood_name)
-        // .on("click", function(event,d) {
-        //     dataset.push(d);
-        //     update(dataset);
-        //     dataset.pop(d);
-        // })
-    
-    // hovedretKnapper.selectAll("text")
-    //     .data(hovedretPresetData)
-    //     .enter()
-    //     .append("text")
-    //     .text(function(d) {return d.emoji;})
 
 }
 // kalder update function udenfor tuborg-klammer (VIGTIGT) med start data traditioneljulefrokost
