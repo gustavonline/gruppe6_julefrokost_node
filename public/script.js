@@ -7,16 +7,9 @@ d3.json("/api/allfood", {
   }).then(function(response) {
     const traditionelJulefrkost = response.julefrokost;
     const veganskjulefrkost = response.veganskjulefrkost;
-    const co2neutraljulefrokost = response.co2neutraljulefrokost; // Henter data fra query i main.js
-
-// Kronologisk datasortering laveste først
-
-function compareFunction (a, b) {
-     return a.co2_aftryk - b.co2_aftryk;
-};
-traditionelJulefrkost.sort(compareFunction);
-veganskjulefrkost.sort(compareFunction);
-co2neutraljulefrokost.sort(compareFunction);
+    const co2neutraljulefrokost = response.co2neutraljulefrokost;
+    const hovedretPresetData = response.hovedret; // Henter data fra query i main.js
+    console.log(veganskjulefrkost);
 
 // Definerer width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 110};
@@ -32,8 +25,44 @@ const svg = d3.selectAll(".barchart-container")
     .classed("axis-element", "true")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
 
+
+//presets knapper
+const presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
+
+const presets = d3.selectAll(".presets")
+presets.selectAll("button")
+    .data(presetsKnapper)
+    .enter()
+    .append("button")
+    .classed("presets-btn", true)
+    .text(d => d)
+    .attr("id", d => d)
+    // funtion der afgøre hvilken et datasæt der skal tildeles den korrekte knap - her er det vigtigt at huske at bruge 'event' selvom den ikke bliver brugt i funktionen - derudover kan man debugge med console.log for at se om knappen rent faktisk hænger sammen med datasættet
+    .on("click", function(event, presetData) {
+        if (presetData == "Den Traditionel") {
+            dataset.push(traditionelJulefrkost);
+
+        } else if (presetData == "Den Veganske") {
+            dataset.push(veganskjulefrkost);
+            console.log(dataset);
+        }
+        else if (presetData == "Den Co2-venlige") {
+            dataset.push(co2neutraljulefrokost);
+        }
+        update(dataset[1]);
+    });    
+
+// tomt dataset til push funtion
+var dataset = [{}];   
+
 // update function til at indsætte data i barchart ved klik på knap
 function update(data) {
+
+// sorterings funtion til at sortere data efter co2_aftryk
+function compareFunction (a, b) {
+     return a.co2_aftryk - b.co2_aftryk;
+};
+data.sort(compareFunction);
 
 // update selection for at fjerne alt gammel data på y-akse når funktionen ovenover bliver kaldt
 const updateSelection = d3.selectAll(".y-axis-text")
@@ -107,7 +136,7 @@ const textLabel = svg.selectAll("text.label")
     .attr("font-size", "20px")
     .attr("fill", "white");
 
-// create emoji og .styleTween for at få animation på emojis --> https://educationalresearchtechniques.com/2019/05/29/tweening-with-d3-js/
+// create emoji og .styleTween for at få animation på labels --> https://educationalresearchtechniques.com/2019/05/29/tweening-with-d3-js/
 svg.selectAll("text.emoji")
     .data(data)
     .join("text")
@@ -147,31 +176,29 @@ const domain = g.selectAll(".domain")
 const xaxistick = g.selectAll(".x-axis-text")
     .remove();
 
+//hovedret knapper
+    const hovedretContainer = d3.selectAll(".hovedret")
+    hovedretContainer.selectAll("button")
+        .data(hovedretPresetData)
+        .enter()
+        .append("button")
+        .classed("hovedretKnapper", true)
+        .text(d => d.shortenfood_name)
+        .attr("id", d => d.shortenfood_name)
+        .on("click", function(event,d) {
+            dataset.push(data);
+            dataset.push(d);
+            update(dataset);
+        })
+    
+    // hovedretKnapper.selectAll("text")
+    //     .data(hovedretPresetData)
+    //     .enter()
+    //     .append("text")
+    //     .text(function(d) {return d.emoji;})
+
 }
 // kalder update function udenfor tuborg-klammer (VIGTIGT) med start data traditioneljulefrokost
 update(traditionelJulefrkost);
 
-//presets knapper
-const presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
-
-const presets = d3.selectAll(".grid1-item-2")
-presets.selectAll("button")
-    .data(presetsKnapper)
-    .enter()
-    .append("button")
-    .classed("presets-btn", true)
-    .text(d => d)
-    .attr("id", d => d)
-    // funtion der afgøre hvilken et datasæt der skal tildeles den korrekte knap - her er det vigtigt at huske at bruge 'event' selvom den ikke bliver brugt i funktionen - derudover kan man debugge med console.log for at se om knappen rent faktisk hænger sammen med datasættet
-    .on("click", function(event, presetData) {
-        console.log(presetData)
-        if (presetData == "Den Traditionel") {
-            update(traditionelJulefrkost);
-        } else if (presetData == "Den Veganske") {
-            update(veganskjulefrkost);
-        }
-        else if (presetData == "Den Co2-venlige") {
-            update(co2neutraljulefrokost);
-        }
-    })
 });
