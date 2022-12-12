@@ -9,7 +9,6 @@ d3.json("/api/allfood", {
     const veganskjulefrkost = response.veganskjulefrkost;
     const co2neutraljulefrokost = response.co2neutraljulefrokost;
     const hovedretPresetData = response.hovedret; // Henter data fra query i main.js
-    console.log(veganskjulefrkost);
 
 // Definerer width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 110};
@@ -25,6 +24,9 @@ const svg = d3.selectAll(".barchart-container")
     .classed("axis-element", "true")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
 
+// tomt dataset til push funtion
+var dataset = [{}];
+console.log(dataset);
 
 //presets knapper
 const presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
@@ -39,21 +41,21 @@ presets.selectAll("button")
     .attr("id", d => d)
     // funtion der afgøre hvilken et datasæt der skal tildeles den korrekte knap - her er det vigtigt at huske at bruge 'event' selvom den ikke bliver brugt i funktionen - derudover kan man debugge med console.log for at se om knappen rent faktisk hænger sammen med datasættet
     .on("click", function(event, presetData) {
-        if (presetData == "Den Traditionel") {
+        dataset.pop();
+        console.log(dataset);
+        if (presetData === "Den Traditionel") {
             dataset.push(traditionelJulefrkost);
-
-        } else if (presetData == "Den Veganske") {
-            dataset.push(veganskjulefrkost);
-            console.log(dataset);
         }
-        else if (presetData == "Den Co2-venlige") {
+        else if (presetData === "Den Veganske") {
+            dataset.push(veganskjulefrkost);
+        }
+        else if (presetData === "Den Co2-venlige") {
             dataset.push(co2neutraljulefrokost);
         }
-        update(dataset[1]);
-    });    
+        console.log(dataset);
+        update(dataset[0]);
+    });
 
-// tomt dataset til push funtion
-var dataset = [{}];   
 
 // update function til at indsætte data i barchart ved klik på knap
 function update(data) {
@@ -185,11 +187,11 @@ const xaxistick = g.selectAll(".x-axis-text")
         .classed("hovedretKnapper", true)
         .text(d => d.shortenfood_name)
         .attr("id", d => d.shortenfood_name)
-        .on("click", function(event,d) {
-            dataset.push(data);
-            dataset.push(d);
-            update(dataset);
-        })
+        // .on("click", function(event,d) {
+        //     dataset.push(d);
+        //     update(dataset);
+        //     dataset.pop(d);
+        // })
     
     // hovedretKnapper.selectAll("text")
     //     .data(hovedretPresetData)
