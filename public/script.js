@@ -10,6 +10,7 @@ d3.json("/api/allfood", {
     var veganskjulefrkost = response.veganskjulefrkost;
     var co2neutraljulefrokost = response.co2neutraljulefrokost;
     var hovedretPresetData = response.hovedret;
+    console.log(hovedretPresetData);
     var traditioneljulefrokost = response.traditioneljulefrokost
     var okse = response.okse // Henter data fra query i main.js
 
@@ -42,17 +43,17 @@ hovedretContainer.selectAll("button")
         .on("click", function(event, d) {
             //if button is  not clicked, add new data
             if (hovedretContainer.selectAll("button").classed("clicked") == false) {
-            hovedretContainer.selectAll("button").classed("clicked", true);
             d => d.shortenfood_name;
             action("addSingle", d);
             action("update");
+            hovedretContainer.selectAll("button").classed("clicked", true);
             }
             //if button is clicked, remove data
             else if (hovedretContainer.selectAll("button").classed("clicked") == true) {
-            hovedretContainer.selectAll("button").classed("clicked", false);
             d => d.shortenfood_name;
-            action("removeSingle", d);
+            action("removeSingle");
             action("update");
+            hovedretContainer.selectAll("button").classed("clicked", false);
             }
         });
 
@@ -238,12 +239,13 @@ function action(type, datatype) {
         console.log(startTraditionelJulefrkost);
         break;
     case "removeSingle":
-        for (var i = 0; i > startTraditionelJulefrkost.length; i++)
-            if (startTraditionelJulefrkost[i].subcategory_id == 1) {
+        for (var i = 0; i < startTraditionelJulefrkost.length; i++)
+            if (startTraditionelJulefrkost[i].function_id === 20) {
                 startTraditionelJulefrkost.splice(i, 1);
                 i--;
             }
         console.log(startTraditionelJulefrkost);
+        break;
     case "update":
         const updateSelection = d3.selectAll(".y-axis-text")
         updateSelection.remove();
