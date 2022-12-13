@@ -5,10 +5,13 @@
 d3.json("/api/allfood", {
     method: "GET", 
   }).then(function(response) {
-    const traditionelJulefrkost = response.julefrokost;
-    const veganskjulefrkost = response.veganskjulefrkost;
-    const co2neutraljulefrokost = response.co2neutraljulefrokost;
-    const hovedretPresetData = response.hovedret; // Henter data fra query i main.js
+    var startTraditionelJulefrkost = response.julefrokost;
+    console.log(startTraditionelJulefrkost);
+    var veganskjulefrkost = response.veganskjulefrkost;
+    var co2neutraljulefrokost = response.co2neutraljulefrokost;
+    var hovedretPresetData = response.hovedret;
+    var traditioneljulefrokost = response.traditioneljulefrokost
+    var okse = response.okse // Henter data fra query i main.js
 
 // Definerer width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 110};
@@ -24,9 +27,34 @@ const svg = d3.selectAll(".barchart-container")
     .classed("axis-element", "true")
     .attr("transform", "translate("+ margin.left + "," + margin.top + ")");
 
-// tomt dataset til push funtion
+// tomt dataset
 let dataset = [];
-console.log(dataset);
+
+//hovedret knapper
+
+const hovedretContainer = d3.selectAll(".hovedret")
+hovedretContainer.selectAll("button")
+        .data(hovedretPresetData)
+        .enter()
+        .append("button")
+        .text(d => d.shortenfood_name)
+        .attr("id", d => d.shortenfood_name)
+        .on("click", function(event, d) {
+            //if button is  not clicked, add new data
+            if (hovedretContainer.selectAll("button").classed("clicked") == false) {
+            hovedretContainer.selectAll("button").classed("clicked", true);
+            d => d.shortenfood_name;
+            action("addSingle", d);
+            action("update");
+            }
+            //if button is clicked, remove data
+            else if (hovedretContainer.selectAll("button").classed("clicked") == true) {
+            hovedretContainer.selectAll("button").classed("clicked", false);
+            d => d.shortenfood_name;
+            action("removeSingle", d);
+            action("update");
+            }
+        });
 
 
 //presets knapper
@@ -41,63 +69,44 @@ presets.selectAll("button")
     .text(d => d)
     .attr("id", d => d)
     // funtion der afgøre hvilken et datasæt der skal tildeles den korrekte knap - her er det vigtigt at huske at bruge 'event' selvom den ikke bliver brugt i funktionen - derudover kan man debugge med console.log for at se om knappen rent faktisk hænger sammen med datasættet
-    .on("click", function(event, data) {
-        dataset.pop();
-        console.log(dataset);
-        if (data === "Den Traditionel") {
-            dataset.splice(dataset[0],0,traditionelJulefrkost);
+    .on("click", function(event, d) {
+        if (d == "Den Traditionel") {
+            action("removeMultiple");
+            action("addMultiple", traditioneljulefrokost);
+            action("update");
         }
-        else if (data === "Den Veganske") {
-            dataset.push(veganskjulefrkost);
+        else if (d == "Den Veganske") {
+            action("removeMultiple");
+            action("addMultiple", veganskjulefrkost);
+            action("update");
         }
-        else if (data === "Den Co2-venlige") {
-            dataset.push(co2neutraljulefrokost);
-        }
-        console.log(dataset);
-        update(dataset[0]);
+        else if (d == "Den Co2-venlige") {
+            action("removeMultiple");
+            action("addMultiple", co2neutraljulefrokost);
+            action("update");
+        };
     });
 
 // update function til at indsætte data i barchart ved klik på knap
-function update(data) {
-    
-//hovedret knapper
-const hovedretContainer = d3.selectAll(".hovedret")
-hovedretContainer.selectAll("button")
-        .data(hovedretPresetData)
-        .enter()
-        .append("button")
-        .classed("hovedretKnapper", true)
-        .text(d => d.shortenfood_name)
-        .attr("id", d => d.shortenfood_name)
-        .on("click", function(event, d) {
-        data.splice(data[0], 0, d);
-        console.log(dataset);
-        update(data);
-    });
-
-    
-    // hovedretKnapper.selectAll("text")
-    //     .data(hovedretPresetData)
-    //     .enter()
-    //     .append("text")
-    //     .text(function(d) {return d.emoji;})
+function startData() {
 
 // // sorterings funtion til at sortere data efter co2_aftryk
 function compareFunction (a, b) {
      return a.co2_aftryk - b.co2_aftryk;
 };
-data.sort(compareFunction);
+startTraditionelJulefrkost.sort(compareFunction);
 
-// update selection for at fjerne alt gammel data på y-akse når funktionen ovenover bliver kaldt
-const updateSelection = d3.selectAll(".y-axis-text")
-updateSelection.remove();
+// // update selection for at fjerne alt gammel data på y-akse når funktionen ovenover bliver kaldt
 
 // X-scale & X-axis ved at append g til svg elementet
 const xScale = d3.scaleLinear()
     .rangeRound([0, w])
-    .domain([0, d3.max(data, function(data) {
+    .domain([0, d3.max(startTraditionelJulefrkost, function(data) {
         if (data.co2_aftryk < 5) {
             return 4;
+        }
+        else if (data.co2_aftryk > 20) {
+            return 45;
         }
         else if (data.co2_aftryk > 150) {
             return 200;
@@ -115,7 +124,7 @@ svg.append("g")
 // y-scale & y-axis ved at append g til svg elementet
 const yScale = d3.scaleBand()
     .range([0, h])
-    .domain(data.map(function(d) {
+    .domain(startTraditionelJulefrkost.map(function(d) {
         return d.shortenfood_name;}))
     .padding(0.4);
 
@@ -126,11 +135,22 @@ svg.append("g")
 
 // konstaterer bars og append rect til svg elementet med data
 const bars = svg.selectAll("rect")
-    .data(data)
+    .data(startTraditionelJulefrkost)
 
 // definerer attributter til bars og kalder .join i stedet for .enter for at data kan opdateres
 bars
-    .join("rect")
+    .join(function(enter) {
+        return enter.append("rect")
+    },
+    function(update) {
+        return update
+    },
+    function(exit) {
+        return exit.remove()
+        .on("end", function() {
+            d3.select(this).remove();
+        });
+    })
     .attr("x", xScale(0))
     .attr("y", function(d) { return yScale(d.shortenfood_name); })
     .attr("height", 45)
@@ -139,11 +159,11 @@ bars
     .attr("width", function(d) {
         return xScale(d.co2_aftryk)})
     .attr("rx", 15)
-    .attr("id", "bar")
+    .attr("id", "bar");
 
 // create labels på bar ift value (co2_aftryk) og .tween for at få animation på labels --> https://educationalresearchtechniques.com/2019/05/29/tweening-with-d3-js/
 const textLabel = svg.selectAll("text.label")
-    .data(data)
+    .data(startTraditionelJulefrkost)
     .join("text")
     .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
     .transition()
@@ -162,7 +182,7 @@ const textLabel = svg.selectAll("text.label")
 
 // create emoji og .styleTween for at få animation på labels --> https://educationalresearchtechniques.com/2019/05/29/tweening-with-d3-js/
 svg.selectAll("text.emoji")
-    .data(data)
+    .data(startTraditionelJulefrkost)
     .join("text")
     .attr("x", 15)
     .attr("y", function(d) { return yScale(d.shortenfood_name) + 30; })
@@ -202,6 +222,35 @@ const xaxistick = g.selectAll(".x-axis-text")
 
 }
 // kalder update function udenfor tuborg-klammer (VIGTIGT) med start data traditioneljulefrokost
-update(traditionelJulefrkost);
+
+function action(type, datatype) {
+    switch(type) {
+    case "addMultiple":
+        startTraditionelJulefrkost.push(...datatype)
+        console.log(startTraditionelJulefrkost)
+        break;
+    case "addSingle":
+        startTraditionelJulefrkost.push(datatype)
+        console.log(startTraditionelJulefrkost)
+        break;
+    case "removeMultiple":
+        startTraditionelJulefrkost.splice(0, startTraditionelJulefrkost.length);
+        console.log(startTraditionelJulefrkost);
+        break;
+    case "removeSingle":
+        for (var i = 0; i > startTraditionelJulefrkost.length; i++)
+            if (startTraditionelJulefrkost[i].subcategory_id == 1) {
+                startTraditionelJulefrkost.splice(i, 1);
+                i--;
+            }
+        console.log(startTraditionelJulefrkost);
+    case "update":
+        const updateSelection = d3.selectAll(".y-axis-text")
+        updateSelection.remove();
+        break;
+    }
+    startData();
+}
+startData(startTraditionelJulefrkost);
 
 });
