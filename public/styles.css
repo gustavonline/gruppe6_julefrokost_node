@@ -96,8 +96,10 @@ img, picture, video, canvas, svg {
 
 /* presets knapper*/
 .presets{
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    padding-bottom: 60px;
     
 }
 .presets-btn {
@@ -119,8 +121,8 @@ img, picture, video, canvas, svg {
 }
       
 .presets-btn:hover {
-    background-color: #ff0f0f;
-    box-shadow: rgb(235, 33, 33) 0 8px 15px;
+    background-color: #BC4749;
+    box-shadow: #BC4749 0 8px 15px;
     transform: translateY(-2px);
 }
 
@@ -129,6 +131,32 @@ box-shadow: none;
 transform: translateY(0);
 }
 
+/* .hovedretter-div {
+
+} */
+
+.retter-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    padding-top: 20px;
+}
+
+.optionknapper {
+    background: transparent;
+    margin: 5%;
+    /* border: 2px solid white; */
+    cursor: pointer;
+    color: white;
+    font-family: 'poppins';
+    letter-spacing: 2px;
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    transition: color .0s ease-in-out, box-shadow .5s ease-in-out;
+}
+
+.optionknapper:hover {
+    color: #BC4749
+}
 
 
 /* D3 styling */
@@ -147,7 +175,7 @@ transform: translateY(0);
 }
 
 #bar:hover {
-    fill: rgba(255, 166, 0, 0.761);
+    fill: #BC4749 ;
     opacity: 100%;
 }
 
@@ -187,7 +215,11 @@ transform: translateY(0);
     height: 100%;
 }
 
-.grid1-item-2 { 
+.grid1-item-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     padding-top: 20px;
     border: 2px dotted rgb(0, 21, 255);
 }
@@ -215,10 +247,14 @@ transform: translateY(0);
 }
 
 .option-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    padding-bottom: 20px;
+}
+
+.option-h1 {
     font-size: 15px;
-    padding-bottom: 50px;
+    padding-bottom: 35px;
+}
+
+.option-p {
+    font-size: 15px;
 }

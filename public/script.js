@@ -12,7 +12,7 @@ d3.json("/api/allfood", {
     var hovedretPresetData = response.hovedret;
     console.log(hovedretPresetData);
     var traditioneljulefrokost = response.traditioneljulefrokost
-    var okse = response.okse // Henter data fra query i main.js
+    var forret = response.forret // Henter data fra query i main.js
 
 // Definerer width & height & margin
 const margin = {top: 20, right: 30, bottom: 40, left: 110};
@@ -31,29 +31,55 @@ const svg = d3.selectAll(".barchart-container")
 // tomt dataset
 let dataset = [];
 
-//hovedret knapper
+//tilbehør, hovedret, dessert og drikkevare knapper
 
-const hovedretContainer = d3.selectAll(".hovedret")
+const hovedretContainer = d3.selectAll("#hovedret")
 hovedretContainer.selectAll("button")
         .data(hovedretPresetData)
         .enter()
         .append("button")
         .text(d => d.shortenfood_name)
+        .classed("optionknapper", true)
         .attr("id", d => d.shortenfood_name)
         .on("click", function(event, d) {
             //if button is  not clicked, add new data
-            if (hovedretContainer.selectAll("button").classed("clicked") == false) {
+            if (d3.select(event.target).classed("clicked") == false) {
+            d3.select(event.target).classed("clicked", true);
             d => d.shortenfood_name;
             action("addSingle", d);
             action("update");
-            hovedretContainer.selectAll("button").classed("clicked", true);
             }
-            //if button is clicked, remove data
-            else if (hovedretContainer.selectAll("button").classed("clicked") == true) {
+            //if button is clicked, remove corresponding data
+            else if (d3.select(event.target).classed("clicked") == true) {
+            d3.selectAll("button").classed("clicked" , false);
             d => d.shortenfood_name;
             action("removeSingle");
             action("update");
-            hovedretContainer.selectAll("button").classed("clicked", false);
+            }
+        });
+    
+const tilbehoerContainer = d3.selectAll("#tilbehør")
+tilbehoerContainer.selectAll("button")
+        .data(forret)
+        .enter()
+        .append("button")
+        .text(d => d.shortenfood_name)
+        .attr("id", d => d.shortenfood_name)
+        .classed("optionknapper", true)
+        .on("click", function(event, d) {
+            //if button is  not clicked, add new data
+            if (d3.select(event.target).classed("clicked") == false) {
+            d3.select(event.target).classed("clicked", true);
+            d => d.shortenfood_name;
+            action("addSingle", d);
+            action("update");
+            }
+            //if button is clicked, remove corresponding data
+            else if (d3.select(event.target).classed("clicked") == true) {
+            d3.selectAll("button").classed("clicked" , false);
+            d => d.shortenfood_name;
+            action("removeSingle", d);
+            action("update");
             }
         });
 
@@ -89,7 +115,11 @@ presets.selectAll("button")
     });
 
 // update function til at indsætte data i barchart ved klik på knap
-function startData() {
+function update() {
+
+// // update selection for at fjerne alt gammel data på y-akse når funktionen ovenover bliver kaldt
+const updateSelection = d3.selectAll(".y-axis-text")
+updateSelection.remove();
 
 // // sorterings funtion til at sortere data efter co2_aftryk
 function compareFunction (a, b) {
@@ -97,30 +127,12 @@ function compareFunction (a, b) {
 };
 startTraditionelJulefrkost.sort(compareFunction);
 
-// // update selection for at fjerne alt gammel data på y-akse når funktionen ovenover bliver kaldt
-
-// X-scale & X-axis ved at append g til svg elementet
-const xScale = d3.scaleLinear()
-    .rangeRound([0, w])
-    .domain([0, d3.max(startTraditionelJulefrkost, function(data) {
-        if (data.co2_aftryk < 5) {
-            return 4;
-        }
-        else if (data.co2_aftryk > 20) {
-            return 45;
-        }
-        else if (data.co2_aftryk > 150) {
-            return 200;
-        }
-    })]);
-
-svg.append("g")
-    .attr("transform", "translate(0," + h + ")")
-    .call(d3.axisBottom(xScale))
-    .selectAll("text")
-    .attr("transform", "translate(-10, 0)rotate(-45)")
-    .style("text-anchor", "end")
-    .classed("x-axis-text", "true")
+// X-scale, kan det tænkes anderledes så det ikke er en låst værdi?
+var xScale = d3.scaleLinear()
+    .domain([0, d3.max(startTraditionelJulefrkost, function(d) {
+        return d.co2_aftryk * 1.2;
+    })])
+    .range([0, w]);
 
 // y-scale & y-axis ved at append g til svg elementet
 const yScale = d3.scaleBand()
@@ -145,6 +157,7 @@ bars
     },
     function(update) {
         return update
+
     },
     function(exit) {
         return exit.remove()
@@ -218,12 +231,12 @@ const domain = g.selectAll(".domain")
     .remove()
 
 //fjerner x-akse-tal
-const xaxistick = g.selectAll(".x-axis-text")
-    .remove();
+const Updatexaxistick = d3.selectAll(".x-axis-text")
+Updatexaxistick.remove();
 
 }
-// kalder update function udenfor tuborg-klammer (VIGTIGT) med start data traditioneljulefrokost
 
+// action function til at kalde på add, remove og update på knapper
 function action(type, datatype) {
     switch(type) {
     case "addMultiple":
@@ -238,21 +251,21 @@ function action(type, datatype) {
         startTraditionelJulefrkost.splice(0, startTraditionelJulefrkost.length);
         console.log(startTraditionelJulefrkost);
         break;
+    // fjerner alt med function_id 20, kan det måske tænkes om???
     case "removeSingle":
         for (var i = 0; i < startTraditionelJulefrkost.length; i++)
-            if (startTraditionelJulefrkost[i].function_id === 20) {
+            if (startTraditionelJulefrkost[i].function_id == 20) {
                 startTraditionelJulefrkost.splice(i, 1);
                 i--;
             }
         console.log(startTraditionelJulefrkost);
         break;
     case "update":
-        const updateSelection = d3.selectAll(".y-axis-text")
-        updateSelection.remove();
+        update();
         break;
     }
-    startData();
+    // update(); // --> dette får den til at opdatere med data hver gang der trykkes på en knap, starter fra 0
 }
-startData(startTraditionelJulefrkost);
+update(startTraditionelJulefrkost); //start med at kalde på update funktionen så den loader med data
 
 });

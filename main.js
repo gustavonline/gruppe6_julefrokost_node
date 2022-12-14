@@ -106,11 +106,20 @@ app.get("/api/allfood", async (req, res) => {
     OR food_name ILIKE 'Øl, hvidtøl, letøl'
     OR food_name ILIKE 'risen%'
     OR food_name ILIKE 'Rødkål. konserves. uden tilsat sukker';`;
+    const query6 = `SELECT SUBSTRING(food_name, 1,12) as shortenfood_name, food_name, co2_aftryk, emoji, function_id
+    FROM food
+    WHERE food_name ILIKE 'Vegansk ost. revet eller skiver' 
+    OR food_name ILIKE 'Laks. atlantisk. opdræt. varmrøget' 
+    OR food_name ILIKE 'Kartoffelchips. grove'
+	  OR food_name ILIKE 'Leverpostej'
+    OR food_name ILIKE 'Vegansk leverpostej'
+    OR food_name ILIKE 'Roastbeef. pålæg';`;
     queryData1 = await client.query(query1);
     queryData2 = await client.query(query2);
     queryData3 = await client.query(query3);
     queryData4 = await client.query(query4);
     queryData5 = await client.query(query5);
+    queryData6 = await client.query(query6);
     // Giv svar tilbage til JavaScript
     res.json({
       "ok": true,
@@ -119,6 +128,7 @@ app.get("/api/allfood", async (req, res) => {
       "co2neutraljulefrokost": queryData3.rows,
       "hovedret": queryData4.rows,
       "traditioneljulefrokost": queryData5.rows,
+      "forret": queryData6.rows,
     })
   } catch (error) {
     // Hvis query fejler, fanges det her.
