@@ -288,7 +288,7 @@ function action(type, datatype) {
         startTraditionelJulefrkost.splice(0, startTraditionelJulefrkost.length);
         console.log(startTraditionelJulefrkost);
         break;
-//for lopp til at finde korrekt data og fjerne kun det ene element
+//for lopp til at finde korrekt data og fjerne kun det ene element --> https://stackoverflow.com/questions/10024866/remove-object-from-array-using-javascript
     case "removeSingle":
             for (var i = 0; i < startTraditionelJulefrkost.length; i++)
             if (startTraditionelJulefrkost[i].shortenfood_name === datatype.shortenfood_name) {
