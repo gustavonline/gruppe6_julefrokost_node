@@ -177,6 +177,7 @@ transform: translateY(0);
 #bar:hover {
     fill: #BC4749 ;
     opacity: 100%;
+    cursor: pointer;
 }
 
 
@@ -237,8 +238,18 @@ transform: translateY(0);
 }
 
 .grid2-item-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     height: 100%;
     border: 2px dotted red;
+}
+
+.totalco2 {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-top: 20px;
+    border: 2px dotted rgb(0, 21, 255);
 }
 
 .grid2-item-2 {

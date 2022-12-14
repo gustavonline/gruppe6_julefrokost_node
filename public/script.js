@@ -168,6 +168,14 @@ bars
     .attr("x", xScale(0))
     .attr("y", function(d) { return yScale(d.shortenfood_name); })
     .attr("height", 45)
+    .on("click", function(event) {
+        var elmntToView = document.getElementById("section-2");
+        elmntToView.scrollIntoView({
+            block: 'start',
+            behavior: 'smooth',
+            inline: 'center'
+          });
+    })
     .transition()
     .duration(2000)
     .attr("width", function(d) {
@@ -233,6 +241,34 @@ const domain = g.selectAll(".domain")
 //fjerner x-akse-tal
 const Updatexaxistick = d3.selectAll(".x-axis-text")
 Updatexaxistick.remove();
+
+// udregning af total co2 i datasettet
+const totalCo2data = [1]
+var totalCo2_aftryk = d3.sum(startTraditionelJulefrkost, d => d.co2_aftryk);
+console.log(totalCo2_aftryk);
+const totalco2Container = d3.select(".totalco2").selectAll("text")
+    .data(totalCo2data)
+    .join(function(enter) {
+        return enter.append("text")
+    },
+    function(update) {
+        return update
+
+    },
+    function(exit) {
+        return exit.remove()
+        .on("end", function() {
+            d3.select(this).remove();
+        });
+    })
+    .append("text")
+    .text(totalCo2_aftryk)
+    .transition()
+    .duration(2000)
+    .tween("text", function(d, i) {
+        return function(t) {
+            this.textContent = d3.interpolateNumber(0,totalCo2_aftryk)(t).toFixed(2);}
+        })
 
 }
 
