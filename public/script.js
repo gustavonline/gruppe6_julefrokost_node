@@ -51,9 +51,9 @@ hovedretContainer.selectAll("button")
             }
             //if button is clicked, remove corresponding data
             else if (d3.select(event.target).classed("clicked") == true) {
-            d3.selectAll("button").classed("clicked" , false);
+            d3.selectAll(event.target).classed("clicked" , false);
             d => d.shortenfood_name;
-            action("removeSingle");
+            action("removeSingle", d);
             action("update");
             }
         });
@@ -76,7 +76,7 @@ tilbehoerContainer.selectAll("button")
             }
             //if button is clicked, remove corresponding data
             else if (d3.select(event.target).classed("clicked") == true) {
-            d3.selectAll("button").classed("clicked" , false);
+            d3.select(event.target).classed("clicked", false);
             d => d.shortenfood_name;
             action("removeSingle", d);
             action("update");
@@ -276,6 +276,7 @@ const totalco2Container = d3.select(".totalco2").selectAll("text")
 function action(type, datatype) {
     switch(type) {
     case "addMultiple":
+//spread operator til at tilføje flere elementer i array HUSK ... foran datatype ellers fejler array opbygning
         startTraditionelJulefrkost.push(...datatype)
         console.log(startTraditionelJulefrkost)
         break;
@@ -287,14 +288,13 @@ function action(type, datatype) {
         startTraditionelJulefrkost.splice(0, startTraditionelJulefrkost.length);
         console.log(startTraditionelJulefrkost);
         break;
-    // fjerner alt med function_id 20, kan det måske tænkes om???
+//for lopp til at finde korrekt data og fjerne kun det ene element
     case "removeSingle":
-        for (var i = 0; i < startTraditionelJulefrkost.length; i++)
-            if (startTraditionelJulefrkost[i].function_id == 20) {
-                startTraditionelJulefrkost.splice(i, 1);
-                i--;
+            for (var i = 0; i < startTraditionelJulefrkost.length; i++)
+            if (startTraditionelJulefrkost[i].shortenfood_name === datatype.shortenfood_name) {
+               startTraditionelJulefrkost.splice(i,1);
+               i--;
             }
-        console.log(startTraditionelJulefrkost);
         break;
     case "update":
         update();
