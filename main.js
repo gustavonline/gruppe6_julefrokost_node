@@ -76,7 +76,7 @@ app.get("/api/allfood", async (req, res) => {
     OR food_name ILIKE 'Rødkål. konserves. uden tilsat sukker';`;
     const query2 = `SELECT SUBSTRING(food_name, 1,12) as shortenfood_name, food_name, co2_aftryk, emoji
     FROM food
-    WHERE food_name ILIKE 'Vegansk Flæskesteg. Hasselback Selleri.' 
+    WHERE food_name ILIKE 'Vegansk Flæskesteg%' 
     OR food_name ILIKE 'Kartoffel. uspec.. rå' 
     OR food_name ILIKE 'Risdrik%'
     OR food_name ILIKE 'Øl, hvidtøl, letøl'
