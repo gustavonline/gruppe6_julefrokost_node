@@ -182,7 +182,7 @@ startTraditionelJulefrkost.sort(compareFunction);
 var xScale = d3.scaleLinear()
     .domain([0, d3.max(startTraditionelJulefrkost, function(d) {
         if (d.co2_aftryk < 5) {
-            return 4;
+            return 6;
         }
         else if (d.co2_aftryk > 5 && d.co2_aftryk < 20) {
             return 15;
