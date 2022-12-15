@@ -12,10 +12,12 @@ d3.json("/api/allfood", {
     var hovedretPresetData = response.hovedret;
     console.log(hovedretPresetData);
     var traditioneljulefrokost = response.traditioneljulefrokost
-    var forret = response.forret // Henter data fra query i main.js
+    var forret = response.forret 
+    var dessert = response.dessert
+    var drikkevarer = response.drikkevarer // Henter data fra query i main.js
 
 // Definerer width & height & margin
-const margin = {top: 20, right: 30, bottom: 40, left: 110};
+const margin = {top: 20, right: 30, bottom: 40, left: 95};
 const w = 1000 - margin.left - margin.right;
 const h = 600 - margin.top - margin.bottom;
 
@@ -33,31 +35,6 @@ let dataset = [];
 
 //tilbehør, hovedret, dessert og drikkevare knapper
 
-const hovedretContainer = d3.selectAll("#hovedret")
-hovedretContainer.selectAll("button")
-        .data(hovedretPresetData)
-        .enter()
-        .append("button")
-        .text(d => d.shortenfood_name)
-        .classed("optionknapper", true)
-        .attr("id", d => d.shortenfood_name)
-        .on("click", function(event, d) {
-            //if button is  not clicked, add new data
-            if (d3.select(event.target).classed("clicked") == false) {
-            d3.select(event.target).classed("clicked", true);
-            d => d.shortenfood_name;
-            action("addSingle", d);
-            action("update");
-            }
-            //if button is clicked, remove corresponding data
-            else if (d3.select(event.target).classed("clicked") == true) {
-            d3.selectAll(event.target).classed("clicked" , false);
-            d => d.shortenfood_name;
-            action("removeSingle", d);
-            action("update");
-            }
-        });
-    
 const tilbehoerContainer = d3.selectAll("#tilbehør")
 tilbehoerContainer.selectAll("button")
         .data(forret)
@@ -83,6 +60,80 @@ tilbehoerContainer.selectAll("button")
             }
         });
 
+const hovedretContainer = d3.selectAll("#hovedret")
+hovedretContainer.selectAll("button")
+        .data(hovedretPresetData)
+        .enter()
+        .append("button")
+        .text(d => d.shortenfood_name)
+        .classed("optionknapper", true)
+        .attr("id", d => d.shortenfood_name)
+        .on("click", function(event, d) {
+            //if button is  not clicked, add new data
+            if (d3.select(event.target).classed("clicked") == false) {
+            d3.select(event.target).classed("clicked", true);
+            d => d.shortenfood_name;
+            action("addSingle", d);
+            action("update");
+            }
+            //if button is clicked, remove corresponding data
+            else if (d3.select(event.target).classed("clicked") == true) {
+            d3.selectAll(event.target).classed("clicked" , false);
+            d => d.shortenfood_name;
+            action("removeSingle", d);
+            action("update");
+            }
+        });
+
+const dessertContainer = d3.selectAll("#dessert")
+dessertContainer.selectAll("button")
+        .data(dessert)
+        .enter()
+        .append("button")
+        .text(d => d.shortenfood_name)
+        .classed("optionknapper", true)
+        .attr("id", d => d.shortenfood_name)
+        .on("click", function(event, d) {
+            //if button is  not clicked, add new data
+            if (d3.select(event.target).classed("clicked") == false) {
+            d3.select(event.target).classed("clicked", true);
+            d => d.shortenfood_name;
+            action("addSingle", d);
+            action("update");
+            }
+            //if button is clicked, remove corresponding data
+            else if (d3.select(event.target).classed("clicked") == true) {
+            d3.selectAll(event.target).classed("clicked" , false);
+            d => d.shortenfood_name;
+            action("removeSingle", d);
+            action("update");
+            }
+        });
+
+const drikkevareContainer = d3.selectAll("#drikkevare")
+drikkevareContainer.selectAll("button")
+        .data(drikkevarer)
+        .enter()
+        .append("button")
+        .text(d => d.shortenfood_name)
+        .attr("id", d => d.shortenfood_name)
+        .classed("optionknapper", true)
+        .on("click", function(event, d) {
+            //if button is  not clicked, add new data
+            if (d3.select(event.target).classed("clicked") == false) {
+            d3.select(event.target).classed("clicked", true);
+            d => d.shortenfood_name;
+            action("addSingle", d);
+            action("update");
+            }
+            //if button is clicked, remove corresponding data
+            else if (d3.select(event.target).classed("clicked") == true) {
+            d3.select(event.target).classed("clicked", false);
+            d => d.shortenfood_name;
+            action("removeSingle", d);
+            action("update");
+            }
+        });
 
 //presets knapper
 let presetsKnapper = ["Den Traditionel","Den Veganske","Den Co2-venlige"];
@@ -130,8 +181,11 @@ startTraditionelJulefrkost.sort(compareFunction);
 // X-scale, kan det tænkes anderledes så det ikke er en låst værdi?
 var xScale = d3.scaleLinear()
     .domain([0, d3.max(startTraditionelJulefrkost, function(d) {
-        if (d.co2_aftryk < 10) {
+        if (d.co2_aftryk < 5) {
             return 4;
+        }
+        else if (d.co2_aftryk > 5 && d.co2_aftryk < 20) {
+            return 15;
         }
         else if (d.co2_aftryk < 20) {
             return 20;
@@ -204,8 +258,9 @@ const textLabel = svg.selectAll("text.label")
     .tween("text", function(d, i) {
         var currentValue = d3.select(this).text();
         return function(t) {
-            this.textContent = d3.interpolateNumber(currentValue,d.co2_aftryk)(t).toFixed(2);}
-        })
+            this.textContent = d3.interpolateNumber(currentValue,d.co2_aftryk)(t).toFixed(2);
+        }
+    })
     // .text(function(d) { return d.co2_aftryk; })
     .attr("x", function(d) {
         return xScale(d.co2_aftryk) + 10})
@@ -255,9 +310,9 @@ Updatexaxistick.remove();
 
 // udregning af total co2 i datasettet
 const totalCo2data = [1]
-var totalCo2_aftryk = d3.sum(startTraditionelJulefrkost, d => d.co2_aftryk);
+var totalCo2_aftryk = d3.sum(startTraditionelJulefrkost, (d => d.co2_aftryk));
 console.log(totalCo2_aftryk);
-const totalco2Container = d3.select(".totalco2").selectAll("text")
+const totalco2Container = d3.select(".totalco2container").selectAll("text")
     .data(totalCo2data)
     .join(function(enter) {
         return enter.append("text")
@@ -274,6 +329,7 @@ const totalco2Container = d3.select(".totalco2").selectAll("text")
     })
     .append("text")
     .text(totalCo2_aftryk)
+    .classed("totaltco2-text", true)
     .transition()
     .duration(2000)
     .tween("text", function(d, i) {

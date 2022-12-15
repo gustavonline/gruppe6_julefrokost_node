@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:regular,italic,700" rel="stylesheet" />
     <script src="https://d3js.org/d3.v7.min.js" defer></script>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
@@ -26,39 +28,37 @@
             <div class="grid1-item-1">
                 <div class="hero">
                     <div id="hero_content">
-                        <h1 class="overskrift">ER DIN JULEFROKOST KLIMAVENLIG?</h1>
-                        <p class="underoverskrift">IDAG ER VI VANT TIL DEN TRANDONTELLE JULEFROKOST MEN ER DEN KLIMA VENLIG  ELLER ER DET PÅ TIDE AT FINDE ANDRE ALTERNERTIVER TIL JULEFOKOSTEN </p>
+                        <h2>Er din julefrokost</h2>
+                        <h1>KLIMAVENLIG?</h1>
+                        <p>I dag er vi vant til den traditionelle julefrokost, <br> men er den klimavenlig eller er det på tide at finde andre alternativer?</p>
                     </div>
                 </div>
                 <div class="barchart-container"></div>
-                <div class="totalco2">
-                    <p class="totalco2-p>">Total CO2 udledning</p>
-                </div>
             </div>
             <div class="grid1-item-2">
                 <div class="option-text">
-                    <h1 class="option-h1">
-                        Her kan du sammensætte din egen julefrokost eller prøve nogle af vores forslag
-                    </h1>
-                    <p class="option-p">Prøv en af vores forslag</p>
+                    <h2 class="option-h1">
+                        Her kan du prøve vores forslag <br> og sammensætte din egen julefrokost
+                    </h2>
+                    <h3>Forslag</h3>
                 </div>
 
                 <div class="presets">
                 </div>
-                <div class="forret-div">
-                    <p class="retter-h1">Tilbehør</p>
+                <div class="option-div">
+                    <h3>Tilbehør</h3>
                     <div class="retter-div" id="tilbehør"></div>
                 </div>
-                <div class="hovedret-div">
-                    <p class="retter-h1">Hovedret</p>
+                <div class="option-div">
+                    <h3>Hovedret</h3>
                     <div class="retter-div" id="hovedret"></div>
                 </div>
-                <div class="hovedretter-div">
-                    <p class="retter-h1">Dessert</p>
+                <div class="option-div">
+                    <h3>Dessert</h3>
                     <div class="retter-div" id="dessert"></div>
                 </div>
-                <div class="hovedretter-div">
-                    <p class="hovedret-h1">Drikkevare</p>
+                <div class="option-div">
+                    <h3>Drikkevare</h3>
                     <div class="retter-div" id="drikkevare"></div>
                 </div>
             </div>
@@ -67,13 +67,33 @@
     <section class="section-2" id="section-2">
         <div class="grid-2">
             <div class="grid2-item-1">
-                <div class="grid2-grid1">
-                </div>
-                <div class="grid2-grid2">
+                <div class="skubbe"></div>
+                <div class="information">
+                    <p class="information-p">Oksekødsmørbrad har en høj CO2e-udledning sammenlignet med andre fødevarer og transportmidler. CO2e, eller kulstofdioxidækvivalent, er en måleenhed for drivhusgasser, herunder kulstofdioxid, metan og andre gasser, der bidrager til den globale opvarmning. Oksekødsmørbrad har en CO2e-udledning på 151,95 pr. kg., hvilket er meget højere end en bil, der udleder 130 kg. CO2 på 1000 km. Selvom en bil har en højere CO2e-udledning end et tog, der kun udleder 37 kg. CO2 på 1000 km, er det stadig mindre end en flyvetur på samme afstand, som vil udlede 223 kg. CO2. Dette viser, at valget af transportmiddel kan have en stor indflydelse på CO2e-udledningen, men at valg af fødevarer også kan have en betydning.</p>
+                    <p class="information-p">Den traditionelle julefrokost har en højere CO2e-udledning end den veganske julefrokost. En vegansk julefrokost vil derfor have en lavere CO2e-udledning end en traditionel julefrokost, da den ikke indeholder kød og mejeriprodukter, som kan have en højere CO2e-udledning end plantebaserede fødevarer. I dette tilfælde er den veganske julefrokost næsten det halve af den traditionelle julefrokosts CO2e-udledning.</p>
                 </div>
             </div>
             <div class="grid2-item-2">
-                <div class="container">
+                <div class="totalco2">
+                    <div class= "totalco2container">
+                        <p class="totalco2-p>">Total Co2/kg <br> = </p>
+                    </div>
+                </div>
+                <div class="facts">
+                    <p class="fact">🌍 Det globale fødevaresystem står for cirka 30% af de samlede globale drivhusgasudledninger</p>
+                    <p class="fact">🌿 Fødevaresystemet kan være en af løsningerne på klima- og miljøproblemer. Øget brug af plantebaserede fødevarer, bæredygtige landbrugsmetoder og mere effektive fødevareproduktionssystemer kan bidrage til at mindske fødevaresystemets negative indvirkning på miljøet.</p>
+                    <div class="kilder">
+                        <p>Kilder</p>
+                        <a href="https://www.eu.dk/da/temaer/klima-og-groen-omstilling/emissionsgraense-for-biler" target="_blank">
+                            Emissionsgrænse for biler
+                        </a>
+                        <a href="https://www.greenmatch.dk/blog/2016/03/saa-meget-bruger-du-i-co2-naar-du-rejser" target="_blank">
+                            Greenmatch
+                        </a>
+                        <a href= "https://www.denstoreklimadatabase.dk" target="_blank">
+                            denstoreklimadatabase
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>  
