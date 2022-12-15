@@ -78,7 +78,7 @@ hovedretContainer.selectAll("button")
             }
             //if button is clicked, remove corresponding data
             else if (d3.select(event.target).classed("clicked") == true) {
-            d3.selectAll(event.target).classed("clicked" , false);
+            d3.select(event.target).classed("clicked" , false);
             d => d.shortenfood_name;
             action("removeSingle", d);
             action("update");
@@ -103,7 +103,7 @@ dessertContainer.selectAll("button")
             }
             //if button is clicked, remove corresponding data
             else if (d3.select(event.target).classed("clicked") == true) {
-            d3.selectAll(event.target).classed("clicked" , false);
+            d3.select(event.target).classed("clicked" , false);
             d => d.shortenfood_name;
             action("removeSingle", d);
             action("update");
@@ -225,7 +225,8 @@ bars
 
     },
     function(exit) {
-        return exit.remove()
+        return exit
+        .remove()
         .on("end", function() {
             d3.select(this).remove();
         });
