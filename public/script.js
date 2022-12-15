@@ -130,7 +130,18 @@ startTraditionelJulefrkost.sort(compareFunction);
 // X-scale, kan det tænkes anderledes så det ikke er en låst værdi?
 var xScale = d3.scaleLinear()
     .domain([0, d3.max(startTraditionelJulefrkost, function(d) {
-        return d.co2_aftryk * 1.2;
+        if (d.co2_aftryk < 10) {
+            return 4;
+        }
+        else if (d.co2_aftryk < 20) {
+            return 20;
+        }
+        else if (d.co2_aftryk > 30 && d.co2_aftryk < 50) {
+            return 60;
+        }
+        else if (d.co2_aftryk > 150) {
+            return 200;
+        }
     })])
     .range([0, w]);
 
